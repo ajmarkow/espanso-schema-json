@@ -79,7 +79,45 @@
           ]
         }
       ]
-    }
+    },
+    {
+      "if": {
+        "properties": {
+          "image_path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "image_path"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "propagate_case"
+          ]
+        }
+      }
+    },
+        {
+          "if": {
+            "properties": {
+              "image_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_path"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "uppercase_style"
+              ]
+            }
+          }
+        }
   ],
   "additionalProperties": false
 }
