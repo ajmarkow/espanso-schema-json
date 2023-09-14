@@ -7,7 +7,10 @@
   "properties": {
     "trigger": {
       "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
-      "type": ["array", "string"],
+      "type": [
+        "array",
+        "string"
+      ],
       "minItems": 1
     },
     "regex": {
@@ -29,15 +32,19 @@
     "uppercase_style": {
       "description": "Not sure what this field does yet. (See https://espanso.org/docs/matches/basics/#static-matches:~:text=ordinary%20least%20squares%22-,uppercase_style,-%3A%20%22capitalize_words%22) ",
       "type": "string",
-      "enum": ["Uppercase", "capitalize_words", "Capitalize"]
+      "enum": [
+        "Uppercase",
+        "capitalize_words",
+        "Capitalize"
+      ]
     },
     "propagate_case": {
       "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing. (See https://espanso.org/docs/matches/basics/#case-propagation)",
       "type": "boolean"
     },
-    "replace":{
+    "replace": {
       "description": "A string match that defines the text that will expand at every occurrence of the trigger. (See https://espanso.org/docs/matches/basics/#static-matches)",
-      "type":"string"
+      "type": "string"
     }
   },
   "allOf": [
@@ -57,21 +64,22 @@
         }
       ]
     },
-    {"oneOf": [
-      {
-        "type": "object",
-        "required": [
-          "image_path"
-        ]
-      },
-      {
-        "type": "object",
-        "required": [
-          "replace"
-        ]
-      }
-    ]
-  }
+    {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "image_path"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "replace"
+          ]
+        }
+      ]
+    }
   ],
   "additionalProperties": false
 }
