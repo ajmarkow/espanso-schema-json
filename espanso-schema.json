@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "trigger": {
-      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/#case-propagation)",
+      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": [
         "array",
         "string"
@@ -25,6 +25,10 @@
       "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
       "type": "boolean"
     },
+    "image_path":{
+      "description":"A string field that specifies a path to an image, which the text trigger will be replaced with, instead of text. (See https://espanso.org/docs/matches/basics/#image-matches)",
+      "type": "string"
+    }
     "uppercase_style": {
       "description": "Not sure what this field does yet. (See https://espanso.org/docs/matches/basics/#static-matches:~:text=ordinary%20least%20squares%22-,uppercase_style,-%3A%20%22capitalize_words%22) ",
       "type": "string",
