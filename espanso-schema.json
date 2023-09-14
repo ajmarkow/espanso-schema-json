@@ -15,7 +15,7 @@
     }
   },
   "label": {
-    "description": "A field to override the default description of a text replacement, making the search UI more intuitive.",
+    "description": "A string field to override the default description of a text replacement, making the search UI more intuitive.",
     "type": "string"
   },
   "word":{
