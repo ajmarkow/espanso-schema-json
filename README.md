@@ -9,6 +9,8 @@
 
 A JSON Schema Specification compliant Schema which describes the requirements and options for YAML objects/config files for the program Espanso. Based upon the documentation at <https://espanso.org>.
 
+TODO: Clarify what schema this is validated against, should be 2020-12 draft.
+
 ### Prerequisites
 
 A validator or client which can utilize JSON Schema to validate the schema of your YAML code
