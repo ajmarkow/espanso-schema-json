@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "trigger": {
-      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement.",
+      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/#case-propagation)",
       "type": [
         "array",
         "string"
@@ -14,19 +14,19 @@
       "minItems": 1
     },
     "regex": {
-      "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined at https://espanso.org/docs/matches/regex-triggers/.",
+      "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
       "type": "string"
     },
     "label": {
-      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive.",
+      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive. (See https://espanso.org/docs/matches/basics/#search-labels)",
       "type": "string"
     },
     "word": {
-      "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators ( such as spaces, commas and newlines)",
+      "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
       "type": "boolean"
     },
     "propagate_case": {
-      "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing.",
+      "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing. (See https://espanso.org/docs/matches/basics/#case-propagation)",
       "type": "boolean"
     }
   },
