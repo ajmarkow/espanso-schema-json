@@ -3,7 +3,6 @@
 ## Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting_started)
 - [Usage](#usage)
 
 ## About <a name = "about"></a>
