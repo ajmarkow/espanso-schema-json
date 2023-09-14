@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://json-schema.org/draft-07/schema",
   "$id": "https://ajm.codes/espanso-schema.json",
   "title": "Espanso text expander YAML schema",
   "description": "The Schema for text expansions for the open source program Espanso (see https://Espanso.org)",
@@ -7,10 +7,7 @@
   "properties": {
     "trigger": {
       "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
-      "type": [
-        "array",
-        "string"
-      ],
+      "type": ["array", "string"],
       "minItems": 1
     },
     "regex": {
@@ -25,34 +22,55 @@
       "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
       "type": "boolean"
     },
-    "image_path":{
-      "description":"A string field that specifies a path to an image, which the text trigger will be replaced with, instead of text. (See https://espanso.org/docs/matches/basics/#image-matches)",
+    "image_path": {
+      "description": "A string field that specifies a path to an image, which the text trigger will be replaced with, instead of text. (See https://espanso.org/docs/matches/basics/#image-matches)",
       "type": "string"
-    }
+    },
     "uppercase_style": {
       "description": "Not sure what this field does yet. (See https://espanso.org/docs/matches/basics/#static-matches:~:text=ordinary%20least%20squares%22-,uppercase_style,-%3A%20%22capitalize_words%22) ",
       "type": "string",
-      "enum": [
-        "Uppercase",
-        "capitalize_words",
-        "Capitalize"
-      ]
+      "enum": ["Uppercase", "capitalize_words", "Capitalize"]
     },
     "propagate_case": {
       "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing. (See https://espanso.org/docs/matches/basics/#case-propagation)",
       "type": "boolean"
+    },
+    "replace":{
+      "description": "A string match that defines the text that will expand at every occurrence of the trigger. (See https://espanso.org/docs/matches/basics/#static-matches)",
+      "type":"string"
     }
   },
-  "oneOf": [
+  "allOf": [
     {
-      "required": [
-        "trigger"
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "trigger"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "regex"
+          ]
+        }
       ]
     },
-    {
-      "required": [
-        "regex"
-      ]
-    }
+    {"oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "image_path"
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "replace"
+        ]
+      }
+    ]
+  }
   ]
 }
