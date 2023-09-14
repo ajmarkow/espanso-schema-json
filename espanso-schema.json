@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ajm.codes/espanso-schema.json",
   "title": "Espanso text expander YAML schema",
-  "description": "The Schema for text expansions for the open source program Espanso (https://Espanso.org)",
+  "description": "The Schema for text expansions for the open source program Espanso (see https://Espanso.org)",
   "type": "object",
   "properties": {
     "trigger": {
@@ -12,6 +12,10 @@
         "string"
       ],
       "minItems": 1
+    },
+    "regex": {
+      "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined at https://espanso.org/docs/matches/regex-triggers/.",
+      "type": "string"
     },
     "label": {
       "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive.",
@@ -26,7 +30,16 @@
       "type": "boolean"
     }
   },
-  "required": [
-    "trigger"
+  "oneOf": [
+    {
+      "required": [
+        "trigger"
+      ]
+    },
+    {
+      "required": [
+        "regex"
+      ]
+    }
   ]
 }
