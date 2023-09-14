@@ -6,25 +6,27 @@
   "type": "object",
   "properties": {
     "trigger": {
-      "description": "The text you type in order to trigger Espanso's text replacement.",
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minItems": 1
-      }
+      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement.",
+      "type": [
+        "array",
+        "string"
+      ],
+      "minItems": 1
+    },
+    "label": {
+      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive.",
+      "type": "string"
+    },
+    "word": {
+      "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators ( such as spaces, commas and newlines)",
+      "type": "boolean"
+    },
+    "propagate_case": {
+      "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing.",
+      "type": "boolean"
     }
   },
-  "label": {
-    "description": "A string field to override the default description of a text replacement, making the search UI more intuitive.",
-    "type": "string"
-  },
-  "word": {
-    "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators ( such as spaces, commas and newlines)",
-    "type": "boolean"
-  },
-  "propagate_case": {
-    "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing.",
-    "type": "boolean"
-  },
-  "required": ["trigger"]
+  "required": [
+    "trigger"
+  ]
 }
