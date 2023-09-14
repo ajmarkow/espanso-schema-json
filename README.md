@@ -5,15 +5,15 @@
 - [About](#about)
 - [Usage](#usage)
 
-## About <a name = "about"></a>
+## About
 
-A JSON Schema Specification compliant Schema which describes the requirements and options for YAML objects/config files for the program Espanso. Based upon the documentation at https://espanso.org
-
+A JSON Schema Specification compliant Schema which describes the requirements and options for YAML objects/config files for the program Espanso. Based upon the documentation at <https://espanso.org>.
 
 ### Prerequisites
 
 A validator or client which can utilize JSON Schema to validate the schema of your YAML code
 
-## Usage <a name = "usage"></a>
+## Usage
 
-For use with any system that can use JSON Schema to validate the format of YAML.
+- For use with any system that can use JSON Schema to validate the format of YAML.
+- Can be used with visual studio code to auto-complete/suggest completions for your Espanso configuration.
