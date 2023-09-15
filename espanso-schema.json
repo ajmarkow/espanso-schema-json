@@ -13,10 +13,7 @@
       ],
       "minItems": 1,
       "minLength": 1,
-      "errorMessage": {
-        "minItems": "At least one word must be used to trigger the text expansion.",
-        "minLength": "The trigger for your text expansion must be at least one character long."
-      }
+      "error": "A text trigger must be at least one character. There must be at least one text trigger."
     },
     "regex": {
       "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
