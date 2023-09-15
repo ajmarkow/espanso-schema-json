@@ -90,12 +90,6 @@
           "required": [
             "form"
           ]
-        },
-        {
-          "type": "object",
-          "required": [
-            "choices"
-          ]
         }
       ]
     },
