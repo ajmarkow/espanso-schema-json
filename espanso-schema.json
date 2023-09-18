@@ -25,11 +25,12 @@
       "minItems":0,
       "maxItems": 1,
       "items": {
-        "type":"string"
+        "type":"string",
+        "minLength": 1
       }
     },
     "word": {
-      "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
+      "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. Useful for spell checking. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
       "type": "boolean"
     },
     "image_path": {
