@@ -21,11 +21,11 @@
     },
     "label": {
       "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive. (See https://espanso.org/docs/matches/basics/#search-labels)",
-      "type":"array",
-      "minItems":0,
+      "type": "array",
+      "minItems": 0,
       "maxItems": 1,
       "items": {
-        "type":"string",
+        "type": "string",
         "minLength": 1
       }
     },
@@ -58,6 +58,44 @@
       "description": "An expansion which renders a form the user fills out in order for expansion to complete. A form must have at least one user-fillable fields denoted by double-brackets [[field_name]] syntax. (See https://espanso.org/docs/matches/forms/ )",
       "type": "string",
       "pattern": "\\[[a-zA-Z0-9]*\\]]"
+    },
+    "vars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["variable_type","params","name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "variable_type": {
+            "type": "string",
+            "description": "In Espanso docs this is called the extensions system. This type field defines how the data for the variable is gathered. (See https://espanso.org/docs/matches/extensions/) ",
+            "enum": [
+              "clipboard",
+              "choice",
+              "date",
+              "echo",
+              "form",
+              "random",
+              "script",
+              "shell"
+            ]
+          },
+          "params":{
+            "type":"object",
+            "properties": {
+              "placeholder":{
+                "type":"string"
+              }
+            }
+          },
+            "additionalProperties":false
+        },
+        "additionalProperties": false
+      },
+      "minItems": 0
     }
   },
   "allOf": [
