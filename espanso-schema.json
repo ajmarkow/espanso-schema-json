@@ -6,8 +6,11 @@
   "type": "object",
   "properties": {
     "trigger": {
-      "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+      "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": "array",
+      "items": {
+        "type":"string"
+      },
       "minItems": 1,
       "minLength": 1,
       "error": "A text trigger must be at least one character. There must be at least one text trigger."
