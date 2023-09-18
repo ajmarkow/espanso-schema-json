@@ -35,7 +35,7 @@
       "type": "string"
     },
     "uppercase_style": {
-      "description": "Not sure what this field does yet. (See https://espanso.org/docs/matches/basics/#static-matches:~:text=ordinary%20least%20squares%22-,uppercase_style,-%3A%20%22capitalize_words%22) ",
+      "description": " Field related to propagate_case. I believe it sets a value which overrides the propagate_case boolean. (See https://espanso.org/docs/matches/basics/#case-propagation) ",
       "type": "string",
       "enum": [
         "Uppercase",
