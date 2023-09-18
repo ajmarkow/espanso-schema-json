@@ -7,10 +7,7 @@
   "properties": {
     "trigger": {
       "description": "A field of either string or Array type, this is the text you type in order to trigger Espanso's text replacement. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
-      "type": [
-        "array",
-        "string"
-      ],
+      "type": "array",
       "minItems": 1,
       "minLength": 1,
       "error": "A text trigger must be at least one character. There must be at least one text trigger."
