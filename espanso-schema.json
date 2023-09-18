@@ -20,7 +20,13 @@
       "type": "string"
     },
     "label": {
-      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive. (See https://espanso.org/docs/matches/basics/#search-labels)"
+      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive. (See https://espanso.org/docs/matches/basics/#search-labels)",
+      "type":"array",
+      "minItems":0,
+      "maxItems": 1,
+      "items": {
+        "type":"string"
+      }
     },
     "word": {
       "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
