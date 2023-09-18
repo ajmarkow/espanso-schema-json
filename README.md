@@ -19,3 +19,8 @@ A validator or client which can utilize JSON Schema to validate the schema of yo
 
 - For use with any system that can use JSON Schema to validate the format of YAML.
 - Can be used with visual studio code to auto-complete/suggest completions for your Espanso configuration.
+
+### TODO ↓
+
+- Determine field combinations/possibilities for objects in vars array
+- Add allOf conditions array specifically for vars item subschema.
