@@ -25,3 +25,7 @@ A validator or client which can utilize JSON Schema to validate the schema of yo
 - Determine field combinations/possibilities for objects in vars array.
 - Add allOf conditions array specifically for vars item subschema.
 - Determine how to add/refactor recursive params, aka params that are used in another variable definition.
+
+### Resources
+
+- Good tool to check schema/json doc for compliance with spec: <https://www.jeremydorn.com/json-editor>

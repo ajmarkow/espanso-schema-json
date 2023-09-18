@@ -90,6 +90,9 @@
             "properties": {
               "placeholder":{
                 "type":"string"
+              },
+              "params":{
+                "$ref": "#/properties/vars/items"
               }
             }
           },
