@@ -68,6 +68,7 @@
         "properties": {
           "name": {
             "type": "string",
+            "description": "The name you use within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. Omit the double brackets when defining this name.",
             "minLength": 1
           },
           "variable_type": {

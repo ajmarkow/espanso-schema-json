@@ -22,5 +22,5 @@ A validator or client which can utilize JSON Schema to validate the schema of yo
 
 ### TODO ↓
 
-- Determine field combinations/possibilities for objects in vars array
+- Determine field combinations/possibilities for objects in vars array.
 - Add allOf conditions array specifically for vars item subschema.
