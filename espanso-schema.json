@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-schema.org/draft-07/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://ajm.codes/espanso-schema.json",
-  "title": "Espanso text expander YAML schema",
+  "title": "Espanso → text expander schema",
   "description": "The Schema for text expansions for the open source program Espanso (see https://Espanso.org)",
   "type": "object",
   "properties": {
@@ -9,7 +9,7 @@
       "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": "array",
       "items": {
-        "type":"string",
+        "type": "string",
         "minLength": 1
       },
       "minItems": 1,
@@ -20,7 +20,7 @@
       "type": "string"
     },
     "label": {
-      "description": "A string field to override the default description of a text replacement, making the search UI of Espanso more intuitive. (See https://espanso.org/docs/matches/basics/#search-labels)",
+      "description": "A string field to override the default description of a text replacement, making searching for your snippet easier. (See https://espanso.org/docs/matches/basics/#search-labels)",
       "type": "array",
       "minItems": 0,
       "maxItems": 1,
@@ -57,14 +57,18 @@
     "form": {
       "description": "An expansion which renders a form the user fills out in order for expansion to complete. A form must have at least one user-fillable fields denoted by double-brackets [[field_name]] syntax. (See https://espanso.org/docs/matches/forms/ )",
       "type": "string",
-      "pattern": "\\[[a-zA-Z0-9]*\\]]"
+      "pattern": "\\[\\[[a-zA-Z0-9]+\\]\\]"
     },
     "vars": {
       "type": "array",
       "items": {
         "type": "object",
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
-        "required": ["variable_type","params","name"],
+        "required": [
+          "variable_type",
+          "params",
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -85,18 +89,18 @@
               "shell"
             ]
           },
-          "params":{
-            "type":"object",
+          "params": {
+            "type": "object",
             "properties": {
-              "placeholder":{
-                "type":"string"
+              "placeholder": {
+                "type": "string"
               },
-              "params":{
+              "params": {
                 "$ref": "#/properties/vars/items"
               }
             }
           },
-            "additionalProperties":false
+          "additionalProperties": false
         },
         "additionalProperties": false
       },
@@ -125,13 +129,14 @@
         {
           "type": "object",
           "required": [
-            "image_path"
+            "replace"
           ]
         },
         {
           "type": "object",
+          "properties": {},
           "required": [
-            "replace"
+            "image_path"
           ]
         },
         {
