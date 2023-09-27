@@ -48,7 +48,7 @@
     "form": {
       "description": "An expansion which renders a form the user fills out in order for expansion to complete. A form must have at least one user-fillable fields denoted by double-brackets [[field_name]] syntax. (See https://espanso.org/docs/matches/forms/ )",
       "type": "string",
-      "pattern": "\\[\\[[a-zA-Z0-9]+\\]\\]"
+      "pattern": "(\\[\\[([a-zA-Z0-9]{1,25})\\]\\])+$"
     },
     "vars": {
       "type": "array",
