@@ -171,25 +171,6 @@
       "then": {
         "not": {
           "required": [
-            "uppercase_style"
-          ]
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "image_path": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "image_path"
-        ]
-      },
-      "then": {
-        "not": {
-          "required": [
             "word"
           ]
         }
