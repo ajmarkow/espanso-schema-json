@@ -52,7 +52,9 @@
     },
     "vars": {
       "type": "array",
+      "$id": "vars",
       "items": {
+        "$id": "var-items",
         "type": "object",
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
         "required": [
@@ -85,9 +87,6 @@
             "properties": {
               "placeholder": {
                 "type": "string"
-              },
-              "params": {
-                "$ref": "#/properties/vars/items"
               }
             }
           },
