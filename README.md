@@ -1,7 +1,5 @@
 # Espanso JSON Schema
 
-## Table of Contents
-
 - [About](#about)
 - [Usage](#usage)
 
@@ -40,3 +38,5 @@ A JSON Schema Specification compliant Schema which describes the requirements an
 ## Resources
 
 - Good tool to check schema/json doc for compliance with spec: <https://www.jeremydorn.com/json-editor>
+- Tools for working with YAML & JSON from [JSON Formatter](https://jsonformatter.org/#:~:text=SOAP%20Formatter-,YAML,-YAML%20Validator).
+- Build a react UI from a JSON Schema using [react-jsonschema-form](https://github.com/rjsf-team/react-jsonschema-form).
