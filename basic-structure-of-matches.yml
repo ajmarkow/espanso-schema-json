@@ -1,0 +1,5 @@
+matches:
+  - trigger: "a"
+    replace: "b"
+  - trigger: "y"
+    replace: "z"

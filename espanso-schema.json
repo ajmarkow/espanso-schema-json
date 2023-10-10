@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://ajm.codes/espanso-schema.json",
-  "title": "Espanso → text expander schema",
+  "title": "EspansoSnippets",
   "description": "The Schema for text expansions for the open source program Espanso (see https://Espanso.org)",
   "type": "object",
   "properties": {
-    "trigger": {
+    "triggers": {
       "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": "array",
       "items": {
@@ -15,6 +15,12 @@
       "minItems": 1,
       "error": "A text trigger must be at least one character. There must be at least one text trigger."
     },
+        "trigger": {
+          "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+          "type": "string",
+          "minLength": 1,
+          "error": "A text trigger must be at least one character. There must be at least one text trigger."
+        },
     "regex": {
       "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
       "type": "string"
@@ -52,7 +58,7 @@
     },
     "vars": {
       "type": "array",
-      "items": {
+      "varItems": {
         "type": "object",
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
         "required": [
@@ -87,7 +93,7 @@
                 "type": "string"
               },
               "params": {
-                "$ref": "#/properties/vars/items"
+                "$ref": "#/properties/vars/varItems"
               }
             }
           },
@@ -138,6 +144,23 @@
         }
       ]
     },
+        {
+          "oneOf": [
+            {
+              "type": "string",
+              "required": [
+                "trigger"
+              ]
+            },
+            {
+              "type": "array",
+              "properties": {},
+              "required": [
+                "triggers"
+              ]
+            }
+          ]
+        },
     {
       "if": {
         "properties": {

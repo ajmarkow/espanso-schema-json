@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ajEspanso",
+  "definitions": {
+    "ajEspanso": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Match"
+          }
+        }
+      },
+      "required": [
+        "matches"
+      ],
+      "title": "ajEspanso"
+    },
+    "Match": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "triggers": {
+          "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "error": "A text trigger must be at least one character. There must be at least one text trigger."
+        },
+        "trigger": {
+          "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+          "type": "string",
+          "minLength": 1,
+          "error": "A text trigger must be at least one character. There must be at least one text trigger."
+        },
+        "regex": {
+          "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
+          "type": "string"
+        },
+        "label": {
+          "description": "A string field to override the default description of a text replacement, making searching for your snippet easier. (See https://espanso.org/docs/matches/basics/#search-labels)",
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "word": {
+          "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. Useful for spell checking. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
+          "type": "boolean"
+        },
+        "image_path": {
+          "description": "A string field that specifies a path to an image, which the text trigger will be replaced with, instead of text. (See https://espanso.org/docs/matches/basics/#image-matches)",
+          "type": "string"
+        },
+        "propagate_case": {
+          "description": "A boolean field turning on and off case-propagation, which makes it possible to expand a match preserving the trigger casing. (See https://espanso.org/docs/matches/basics/#case-propagation)",
+          "type": "boolean"
+        },
+        "replace": {
+          "description": "A string match that defines the text that will expand at every occurrence of the trigger. (See https://espanso.org/docs/matches/basics/#static-matches)",
+          "type": "string"
+        },
+        "form": {
+          "description": "An expansion which renders a form the user fills out in order for expansion to complete. A form must have at least one user-fillable fields denoted by double-brackets [[field_name]] syntax. (See https://espanso.org/docs/matches/forms/ )",
+          "type": "string",
+          "pattern": "(\\[\\[([a-zA-Z0-9]{1,25})\\]\\])+$"
+        },
+        "vars": {
+          "type": "array",
+          "varItems": {
+            "type": "object",
+            "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
+            "required": [
+              "variable_type",
+              "params",
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. In use, surround with {{ }} on either side of variable.",
+                "minLength": 1
+              },
+              "variable_type": {
+                "type": "string",
+                "description": "In Espanso docs this is called the extensions system. This type field defines how the data for the variable is gathered. (See https://espanso.org/docs/matches/extensions/) ",
+                "enum": [
+                  "clipboard",
+                  "choice",
+                  "date",
+                  "echo",
+                  "form",
+                  "random",
+                  "script",
+                  "shell"
+                ]
+              },
+              "params": {
+                "type": "object",
+                "properties": {
+                  "placeholder": {
+                    "type": "string"
+                  },
+                  "params": {
+                    "$ref": "#/properties/vars/varItems"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "trigger"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "regex"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "triggers"
+              ]
+            }
+
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "replace"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {},
+              "required": [
+                "image_path"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "form"
+              ]
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "image_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_path"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "propagate_case"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "image_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_path"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "word"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "image_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_path"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "vars"
+              ]
+            }
+          }
+        }
+      ],
+      "title": "Match"
+    }
+  }
+}
