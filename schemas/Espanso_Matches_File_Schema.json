@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ajm.codes/Espanso_Matches_File_Schema.json",
+  "$ref": "#/definitions/espansoMatchesFile",
+  "definitions": {
+    "espansoMatchesFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {
+            "$ref": "Espanso_Match_Schema.json"
+          }
+        }
+      },
+      "required": [
+        "matches"
+      ],
+      "title": "espansoMatchesFile"
+    }
+  }
+}
