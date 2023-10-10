@@ -35,6 +35,6 @@ A JSON Schema Specification compliant Schema which describes the requirements an
 - Add allOf conditions array specifically for vars item subschema.
 - Determine how to add/refactor recursive params, aka params that are used in another variable definition.
 
-### Resources
+## Resources
 
 - Good tool to check schema/json doc for compliance with spec: <https://www.jeremydorn.com/json-editor>
