@@ -8,6 +8,7 @@
 ## About
 
 A JSON Schema Specification compliant Schema which describes the requirements and options for YAML objects/config files for the program Espanso. Based upon the documentation at <https://espanso.org>
+
 ## Usage
 
 1. **Prerequisites**:
@@ -33,7 +34,8 @@ A JSON Schema Specification compliant Schema which describes the requirements an
 
 - Determine field combinations/possibilities for objects in vars array.
 - Add allOf conditions array specifically for vars item subschema.
-- Determine how to add/refactor recursive params, aka params that are used in another variable definition.
+- Determine if form_fields is needed.
+- Review Espanso docs for missed parameters.
 
 ## Resources
 
