@@ -17,8 +17,21 @@ A validator or client which can utilize JSON Schema to validate the schema of yo
 
 ## Usage
 
-- For use with any system that can use JSON Schema to validate the format of YAML.
-- Can be used with visual studio code to auto-complete/suggest completions for your Espanso configuration.
+1. **Prerequisites**: Before using this schema to validate your Espanso .yml files in VS Code, make sure you have the YAML extension installed in VS Code. You can find the extension [here](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).
+
+2. **Configuration**: To enable validation, add the following line to any Espanso match files where you want validation:
+
+    ```yaml
+    # yaml-language-server: $schema=(PATH)
+    ```
+
+    - Replace `(PATH)` with the actual path to the `Espanso_Matches_File_Schema.json` file, located in the schemas folder on your system.
+    - Ensure that both `Espanso_Matches_File_Schema.json` and `Espanso_Match_Schema.json` are downloaded and kept in the same directory.
+    - Note that `Espanso_Matches_File_Schema.json` depends on `Espanso_Match_Schema.json`.
+
+3. **Validation and Completion**: After configuration, any errors will be displayed in the problems pane of VS Code. You can also take advantage of IntelliSense completions while manually editing your configuration.
+
+4. **Integration**: This schema is also utilized for validation in the [total_rewrite_of_snippet_cli_gem](https://github.com/ajmarkow/total_rewrite_of_snippet_cli_gem) project.
 
 ### TODO ↓
 
