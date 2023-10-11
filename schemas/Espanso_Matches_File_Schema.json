@@ -2,6 +2,8 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://ajm.codes/Espanso_Matches_File_Schema.json",
   "$ref": "#/definitions/EspansoMatchesFile",
+  "title": "Espanso Match File Schema",
+  "description": "The Schema of .yml match files for text expansions for the open source program Espanso (see https://Espanso.org)",
   "definitions": {
     "EspansoMatchesFile": {
       "type": "object",

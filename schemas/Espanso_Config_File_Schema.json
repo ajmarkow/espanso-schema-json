@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Espanso Config Schema",
-  "description": "Espanso Config Schema",
+  "title": "Espanso Config File Schema",
+  "description": "The schema for config.yml files for the open source program Espanso (see https://Espanso.org)",
   "$id": "https://ajm.codes/Espanso_Config_File_Schema.json",
   "type": "object",
   "properties": {
