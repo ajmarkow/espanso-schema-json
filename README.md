@@ -40,3 +40,7 @@ A JSON Schema Specification compliant Schema which describes the requirements an
 - Good tool to check schema/json doc for compliance with spec: <https://www.jeremydorn.com/json-editor>
 - Tools for working with YAML & JSON from [JSON Formatter](https://jsonformatter.org/#:~:text=SOAP%20Formatter-,YAML,-YAML%20Validator).
 - Build a react UI from a JSON Schema using [react-jsonschema-form](https://github.com/rjsf-team/react-jsonschema-form).
+
+## License
+
+- This software is licensed under the [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/licenses/gpl-3.0.txt) V3.
