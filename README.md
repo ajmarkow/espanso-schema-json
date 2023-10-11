@@ -1,11 +1,19 @@
 # Espanso JSON Schemas
 
 - [About](#about)
+- [Schemas](#schemas)
 - [Usage](#usage)
 
 ## About
 
 A JSON Schema Specification compliant Schema which describes the requirements and options for YAML objects/config files for the program Espanso. Based upon the documentation at <https://espanso.org>
+
+## Schemas
+
+This repository includes 3 schemas:
+- Espanso_Matches_File_Schema.json ← A schema for a match file, either the base file, or an application specific file.
+- Espanso_Match_Schema.json ← A schema for individual matches within a match file.
+- Espanso_Config_File_Schema.json ← A schema for espanso configuration files, either the base file, or application specific configurations.
 
 ## Usage
 
