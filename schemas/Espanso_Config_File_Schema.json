@@ -94,6 +94,10 @@
       "description": "Customize the keyboard shortcut used to paste an expansion. This should follow this format: CTRL+SHIFT+V.  May this be used in App-Specific Configs? Yes",
       "type": "string"
     },
+    "filter_title":{
+      "description": "A string used to specify what application app specific matches should be confined to. This property is only used in app-specific configurations. See https://espanso.org/docs/matches/organizing-matches/#using-imports-to-group-private-match-sets-advanced.",
+      "type":"string"
+    },
     "search_shortcut": {
       "description": "Hotkey used to show the Search UI.  May this be used in App-Specific Configs? No",
       "type": "string"
