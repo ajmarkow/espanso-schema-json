@@ -1,4 +1,4 @@
-# Espanso JSON Schema
+# Espanso JSON Schemas
 
 - [About](#about)
 - [Usage](#usage)
