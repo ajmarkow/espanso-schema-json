@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://ajm.codes/espanso-schema.json",
+  "$id": "https://ajm.codes/Espanso_Match_Schema.json",
   "title": "EspansoSnippets",
   "description": "The Schema for text expansions for the open source program Espanso (see https://Espanso.org)",
   "type": "object",
