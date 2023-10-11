@@ -6,7 +6,7 @@
 
 ## About
 
-3 JSON Schema Specification compliant Schema, which describe the requirements and options for YAML configuration and match files for the program Espanso. Based upon the documentation at <https://espanso.org>.
+These are JSON Schema Specification compliant Schemas, which describe the requirements and options for YAML configuration and match files for the program Espanso. Based upon the documentation at <https://espanso.org>.
 
 ## Schemas
 
