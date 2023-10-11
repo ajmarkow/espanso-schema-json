@@ -109,6 +109,21 @@
     "word_separators": {
       "description": "Chars that when pressed mark the start and end of a word. Examples of this are . or ,.  May this be used in App-Specific Configs? No",
       "type": "array"
+    },
+    "enable_passive":{
+      "description": "This boolean turns on passive mode, which allows users to select text, then use a hotkey to trigger text replacement after typing. See https://espanso.org/docs/legacy/passive-mode/.",
+      "type":"boolean",
+      "default": true
+    },
+    "passive_key":{
+      "description": "The key a user presses to trigger text expansion for selected text, when Espanso is set to passive mode. See https://espanso.org/docs/legacy/passive-mode/",
+      "type":"string",
+            "enum": [
+              "CTRL",
+              "ALT",
+              "SHIFT",
+              "META"
+            ]
     }
   }
 }
