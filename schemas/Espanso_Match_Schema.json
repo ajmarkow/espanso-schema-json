@@ -51,6 +51,11 @@
       "type": "string",
       "pattern": "(\\[\\[([a-zA-Z0-9]{1,25})\\]\\])+$"
     },
+    "passive_only": {
+      "description": "A boolean to s a text expansion so it will only be expanded when using passive mode.",
+      "type":"boolean",
+      "default":"false"
+    },
     "vars": {
       "type": "array",
       "varItems": {
