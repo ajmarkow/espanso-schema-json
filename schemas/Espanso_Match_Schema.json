@@ -15,12 +15,12 @@
       "minItems": 1,
       "error": "A text trigger must be at least one character. There must be at least one text trigger."
     },
-        "trigger": {
-          "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
-          "type": "string",
-          "minLength": 1,
-          "error": "A text trigger must be at least one character. There must be at least one text trigger."
-        },
+    "trigger": {
+      "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, although usually just one is used. (See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+      "type": "string",
+      "minLength": 1,
+      "error": "A text trigger must be at least one character. There must be at least one text trigger."
+    },
     "regex": {
       "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
       "type": "string"
@@ -28,7 +28,7 @@
     "label": {
       "description": "A string field to override the default description of a text replacement, making searching for your snippet easier. (See https://espanso.org/docs/matches/basics/#search-labels)",
       "type": "string",
-      "minLength":1
+      "minLength": 1
     },
     "word": {
       "description": "A boolean field turning on and off setting that tells Espanso to only trigger that match if surrounded by word separators, such as spaces, commas and newlines. Useful for spell checking. (See https://espanso.org/docs/matches/basics/#word-triggers) ",
@@ -53,8 +53,8 @@
     },
     "passive_only": {
       "description": "A boolean to s a text expansion so it will only be expanded when using passive mode.",
-      "type":"boolean",
-      "default":"false"
+      "type": "boolean",
+      "default": "false"
     },
     "vars": {
       "type": "array",
@@ -119,12 +119,12 @@
             "regex"
           ]
         },
-                {
-                  "type": "array",
-                  "required": [
-                    "regtriggersex"
-                  ]
-                }
+        {
+          "type": "array",
+          "required": [
+            "regtriggersex"
+          ]
+        }
       ]
     },
     {

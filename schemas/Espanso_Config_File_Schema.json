@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Espanso Config File Schema",
   "description": "The schema for config.yml files for the open source program Espanso (see https://Espanso.org)",
   "$id": "https://ajm.codes/Espanso_Config_File_Schema.json",
@@ -94,9 +94,9 @@
       "description": "Customize the keyboard shortcut used to paste an expansion. This should follow this format: CTRL+SHIFT+V.  May this be used in App-Specific Configs? Yes",
       "type": "string"
     },
-    "filter_title":{
+    "filter_title": {
       "description": "A string used to specify what application app specific matches should be confined to. This property is only used in app-specific configurations. See https://espanso.org/docs/matches/organizing-matches/#using-imports-to-group-private-match-sets-advanced.",
-      "type":"string"
+      "type": "string"
     },
     "search_shortcut": {
       "description": "Hotkey used to show the Search UI.  May this be used in App-Specific Configs? No",
@@ -114,20 +114,20 @@
       "description": "Chars that when pressed mark the start and end of a word. Examples of this are . or ,.  May this be used in App-Specific Configs? No",
       "type": "array"
     },
-    "enable_passive":{
+    "enable_passive": {
       "description": "This boolean turns on passive mode, which allows users to select text, then use a hotkey to trigger text replacement after typing. See https://espanso.org/docs/legacy/passive-mode/.",
-      "type":"boolean",
+      "type": "boolean",
       "default": true
     },
-    "passive_key":{
+    "passive_key": {
       "description": "The key a user presses to trigger text expansion for selected text, when Espanso is set to passive mode. See https://espanso.org/docs/legacy/passive-mode/",
-      "type":"string",
-            "enum": [
-              "CTRL",
-              "ALT",
-              "SHIFT",
-              "META"
-            ]
+      "type": "string",
+      "enum": [
+        "CTRL",
+        "ALT",
+        "SHIFT",
+        "META"
+      ]
     }
   }
 }
