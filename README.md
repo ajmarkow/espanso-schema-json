@@ -40,8 +40,8 @@ This repository includes 3 schemas:
 
 ### TODO ↓
 
-- Determine field combinations/possibilities for objects in vars array.
-- Add allOf conditions array specifically for vars item subschema.
+- Add allOf conditions array items specifically for vars item subschema (including if then statements for specific parameters).
+- Implement <https://espanso.org/docs/matches/forms/> options
 - Review Espanso docs for missed parameters.
 
 ## Resources
