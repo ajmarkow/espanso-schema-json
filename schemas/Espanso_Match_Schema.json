@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "triggers": {
-      "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, and the property triggers is used when you want multiple triggers.(See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+      "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, and the property triggers is used when you want  trigger.(See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": "array",
       "items": {
         "type": "string",
@@ -49,7 +49,7 @@
     "form": {
       "description": "An expansion which renders a form the user fills out in order for expansion to complete. A form must have at least one user-fillable fields denoted by double-brackets [[field_name]] syntax. (See https://espanso.org/docs/matches/forms/ )",
       "type": "string",
-      "pattern": "(\\[\\[([a-zA-Z0-9]{1,25})\\]\\])"
+      "pattern": "(\\[\\[([a-zA-Z0-9!@#$%^&*)(+=._-]{1,25})\\]\\])"
     },
     "passive_only": {
       "description": "A boolean to s a text expansion so it will only be expanded when using passive mode.",
