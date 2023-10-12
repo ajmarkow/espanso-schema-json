@@ -56,6 +56,12 @@
       "type": "boolean",
       "default": "false"
     },
+    "global_vars":{
+      "type":"array",
+      "globalvarItems": {
+        "$ref":"#/vars/varItems"
+      }
+    },
     "vars": {
       "type": "array",
       "varItems": {
@@ -63,7 +69,6 @@
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
         "required": [
           "variable_type",
-          "params",
           "name"
         ],
         "properties": {

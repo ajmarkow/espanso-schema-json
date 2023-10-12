@@ -11,6 +11,7 @@ These are JSON Schema Specification compliant Schemas, which describe the requir
 ## Schemas
 
 This repository includes 3 schemas:
+
 - Espanso_Matches_File_Schema.json ← A schema for a match file, either the base file, or an application specific file.
 - Espanso_Match_Schema.json ← A schema for individual matches within a match file.
 - Espanso_Config_File_Schema.json ← A schema for espanso configuration files, either the base file, or application specific configurations.
@@ -18,6 +19,7 @@ This repository includes 3 schemas:
 ## Usage
 
 1. **Prerequisites**:
+
     - Before using this schema to validate your Espanso .yml files in VS Code, make sure you have the YAML extension installed in VS Code.
     - You can find the extension [here](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).
     - Clone the schemas folder to your computer.
@@ -40,7 +42,6 @@ This repository includes 3 schemas:
 
 - Determine field combinations/possibilities for objects in vars array.
 - Add allOf conditions array specifically for vars item subschema.
-- Determine if form_fields is needed.
 - Review Espanso docs for missed parameters.
 
 ## Resources
