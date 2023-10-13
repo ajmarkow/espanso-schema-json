@@ -42,7 +42,8 @@ This repository includes 3 schemas:
 
 - Add allOf conditions array items specifically for vars item subschema (including if then statements for specific parameters).
 - Review Espanso docs for missed parameters.
-- Implement conditions on any invalid form property combinations
+- Implement conditions on any remaining invalid form property combinations
+- Ensure form patternproperties as params for variable is supported: <https://espanso.org/docs/matches/forms/#controls-with-the-verbose-syntax>
 
 ## Resources
 
