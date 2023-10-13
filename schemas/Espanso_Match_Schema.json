@@ -160,7 +160,8 @@
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions. See https://espanso.org/docs/matches/variables/.",
         "required": [
           "type",
-          "name"
+          "name",
+          "params"
         ],
         "properties": {
           "name": {
@@ -228,6 +229,10 @@
                 "description": "Specifically for the choice extension, this array contains a list of string values you will chose between in the selection dialog rendered with this type of expansion. See https://espanso.org/docs/matches/extensions/#choice-extension.",
                 "type": "array"
               },
+              "choices":{
+                "description": "Specifically for the random extension, this array contains a list of string values Espanso will randomly chose between when replacing the trigger.  See https://espanso.org/docs/matches/extensions/#random-extension.",
+                "type":"array"
+              },
               "echo": {
                 "description": "Specifically for the echo extension, this is the value of a fixed variable, where the name of the variable is the key. See https://espanso.org/docs/matches/extensions/#echo-extension.",
                 "type": "string"
@@ -249,8 +254,10 @@
                 "type": "string"
               },
               "args ": {
-                "description": "Specifically for the script extension, this property provides an array of arguments, which are used when evaluating/running your scripts. See https://espanso.org/docs/matches/extensions/#script-extension.",
-                "type": "array"
+                "description": "Specifically for the script extension, this property provides an array of arguments, which are used when evaluating/running your scripts. First argument should be the programming language. Second argument should be the path to the script to run. See https://espanso.org/docs/matches/extensions/#script-extension.",
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2
               }
             }
           },
