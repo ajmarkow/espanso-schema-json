@@ -62,11 +62,83 @@
         "$ref":"#/vars/varItems"
       }
     },
+    "form_fields":{
+      "description": "Please prefix all form field names with FF_, in order for them to be properly validated against schema.",
+      "type":"object",
+       "patternProperties": {
+        "^FF_": {
+          "type": "object",
+          "properties": {
+            "type":{
+              "type":"string",
+              "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
+              "enum": [
+                "choice",
+                "list",
+                "form"
+              ]
+            },
+            "multiline":{
+              "type":"boolean",
+              "default":"false"
+            },
+            "default":{
+              "type":"string",
+              "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
+            },
+            "trim_string_values":{
+              "type":"boolean",
+              "default":"true",
+              "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon."
+            },
+            "values":{
+              "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
+              "type":["array","string"],
+              "minItems":1
+            }
+          },
+          "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "list"
+                      }
+                    }
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "multiline"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "choice"
+                      }
+                    }
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "multiline"
+                      ]
+                    }
+                  }
+                }
+          ]
+        }
+       }
+    },
     "vars": {
       "type": "array",
       "varItems": {
         "type": "object",
-        "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions.",
+        "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions. See https://espanso.org/docs/matches/variables/.",
         "required": [
           "variable_type",
           "name"
