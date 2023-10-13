@@ -56,21 +56,21 @@
       "type": "boolean",
       "default": "false"
     },
-    "global_vars":{
-      "type":"array",
+    "global_vars": {
+      "type": "array",
       "globalvarItems": {
-        "$ref":"#/vars/varItems"
+        "$ref": "#/vars/varItems"
       }
     },
-    "form_fields":{
+    "form_fields": {
       "description": "Please prefix all form field names with FF_, in order for them to be properly validated against schema.",
-      "type":"object",
-       "patternProperties": {
+      "type": "object",
+      "patternProperties": {
         "^FF_": {
           "type": "object",
           "properties": {
-            "type":{
-              "type":"string",
+            "type": {
+              "type": "string",
               "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
               "enum": [
                 "choice",
@@ -78,77 +78,80 @@
                 "form"
               ]
             },
-            "multiline":{
-              "type":"boolean",
-              "default":"false"
+            "multiline": {
+              "type": "boolean",
+              "default": "false"
             },
-            "default":{
-              "type":"string",
+            "default": {
+              "type": "string",
               "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
             },
-            "trim_string_values":{
-              "type":"boolean",
-              "default":"true",
+            "trim_string_values": {
+              "type": "boolean",
+              "default": "true",
               "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon."
             },
-            "values":{
+            "values": {
               "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
-              "type":["array","string"],
-              "minItems":1
+              "type": [
+                "array",
+                "string"
+              ],
+              "minItems": 1
             }
           },
           "allOf": [
-                {
-                  "if": {
-                    "properties": {
-                      "type": {
-                        "const": "list"
-                      }
-                    }
-                  },
-                  "then": {
-                    "not": {
-                      "required": [
-                        "multiline"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "if": {
-                    "properties": {
-                      "type": {
-                        "const": "choice"
-                      }
-                    }
-                  },
-                  "then": {
-                    "not": {
-                      "required": [
-                        "multiline"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "if": {
-                    "properties": {
-                      "type": {
-                        "const": "form"
-                      }
-                    }
-                  },
-                  "then": {
-                    "not": {
-                      "required": [
-                        "values"
-                      ]
-                    }
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "list"
                   }
                 }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "multiline"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "choice"
+                  }
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "multiline"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "form"
+                  }
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "values"
+                  ]
+                }
+              }
+            }
           ]
         }
-       }
+      }
     },
     "vars": {
       "type": "array",
@@ -174,17 +177,18 @@
               "date",
               "echo",
               "form",
+              "global",
               "random",
               "script",
               "shell"
             ]
           },
-          "depends_on":{
-            "type":"array",
-            "description": "Specifies a list of other variables which depend upon the value of this variable. This is usually inferred when Espanso evaluates the variables. However, when using an environmental variable, with a type of cmd, it may be necessary to manually specify the dependency using this field. See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed.",
-            "minItems":1
+          "depends_on": {
+            "type": "array",
+            "description": "Specifies a list of other variables which this variable depends upon the value of.  Effectively, this forces the variable with the depends_on property to be evaluated last. This is usually inferred when Espanso evaluates the variables. When using an environmental variable in your parameters, with a type of cmd, or setting a global variable, it may be necessary to manually specify the dependency using this field.  See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed.",
+            "minItems": 1,
             "items": {
-              "type":"string"
+              "type": "string"
             }
           },
           "params": {
@@ -198,7 +202,11 @@
                 "description": "Specifically for the shell extension, this option specifies what shell the commands specified using the cmd property will run in",
                 "type": "string",
                 "enum": [
-                  "cmd", "powershell", "wsl", "sh", "bash"
+                  "cmd",
+                  "powershell",
+                  "wsl",
+                  "sh",
+                  "bash"
                 ]
               },
               "format": {
