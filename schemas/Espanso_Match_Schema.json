@@ -190,7 +190,7 @@
                 "description": "Specifically for the shell extension, this option specifies what shell the commands specified using the cmd property will run in",
                 "type": "string",
                 "enum": [
-                  "\"cmd\",\"powershell\",\"wsl\",\"sh\",\"bash\""
+                  "cmd", "powershell", "wsl", "sh", "bash"
                 ]
               },
               "format": {
