@@ -179,6 +179,14 @@
               "shell"
             ]
           },
+          "depends_on":{
+            "type":"array",
+            "description": "Specifies a list of other variables which depend upon the value of this variable. This is usually inferred when Espanso evaluates the variables. However, when using an environmental variable, with a type of cmd, it may be necessary to manually specify the dependency using this field. See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed.",
+            "minItems":1
+            "items": {
+              "type":"string"
+            }
+          },
           "params": {
             "type": "object",
             "properties": {
