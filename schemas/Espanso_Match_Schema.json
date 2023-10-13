@@ -152,11 +152,11 @@
     },
     "vars": {
       "type": "array",
-      "varItems": {
+      "items": {
         "type": "object",
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions. See https://espanso.org/docs/matches/variables/.",
         "required": [
-          "variable_type",
+          "type",
           "name"
         ],
         "properties": {
@@ -165,7 +165,7 @@
             "description": "The name within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. In use, surround with [[ ]] on either side of variable.",
             "minLength": 1
           },
-          "variable_type": {
+          "type": {
             "type": "string",
             "description": "In Espanso docs this is called the extensions system. This type field defines how the data for the variable is gathered. (See https://espanso.org/docs/matches/extensions/) ",
             "enum": [
@@ -182,11 +182,59 @@
           "params": {
             "type": "object",
             "properties": {
-              "placeholder": {
+              "cmd": {
+                "description": "Specifically for the shell extension, this string field specifies what command you want to be run in your shell for the variable. See  https://espanso.org/docs/matches/extensions/#shell-extension.",
                 "type": "string"
               },
-              "params": {
-                "$ref": "#/properties/vars/varItems"
+              "shell": {
+                "description": "Specifically for the shell extension, this option specifies what shell the commands specified using the cmd property will run in",
+                "type": "string",
+                "enum": [
+                  "\"cmd\",\"powershell\",\"wsl\",\"sh\",\"bash\""
+                ]
+              },
+              "format": {
+                "description": "Specifically for the date extension, this property describes how the date will be formatted.  See https://espanso.org/docs/matches/extensions/#date-extension.",
+                "type": "string"
+              },
+              "offset": {
+                "description": "Specifically for the date extension, this property defines an offset that will be added when the extension is evaluated. See https://espanso.org/docs/matches/extensions/#future-and-past-dates.",
+                "type": "integer"
+              },
+              "locale": {
+                "description": "Specifically for the date extension, this property forces the date to use a specific locale's formatting. Should be a valid BCP47 option, from the list of enumerated values. See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
+                "type": "string",
+                "enum": [
+                  "\"ar-SA\",\"bn-BD\",\"bn-IN\",\"cs-CZ\",\"da-DK\",\"de-AT\",\"de-CH\",\"de-DE\",\"el-GR\",\"en-AU\",\"en-CA\",\"en-GB\",\"en-IE\",\"en-IN\",\"en-NZ\",\"en-US\",\"en-ZA\",\"es-AR\",\"es-CL\",\"es-CO\",\"es-ES\",\"es-MX\",\"es-US\",\"fi-FI\",\"fr-BE\",\"fr-CA\",\"fr-CH\",\"fr-FR\",\"he-IL\",\"hi-IN\",\"hu-HU\",\"id-ID\",\"it-CH\",\"it-IT\",\"jp-JP\",\"ko-KR\",\"nl-BE\",\"nl-NL\",\"no-NO\",\"pl-PL\",\"pt-BR\",\"pt-PT\",\"ro-RO\",\"ru-RU\",\"sk-SK\",\"sv-SE\",\"ta-IN\",\"ta-LK\",\"th-TH\",\"tr-TR\",\"zh-CN\",\"zh-HK\",\"zh-TW\""
+                ]
+              },
+              "values": {
+                "description": "Specifically for the choice extension, this array contains a list of string values you will chose between in the selection dialog rendered with this type of expansion. See https://espanso.org/docs/matches/extensions/#choice-extension.",
+                "type": "array"
+              },
+              "echo": {
+                "description": "Specifically for the echo extension, this is the value of a fixed variable, where the name of the variable is the key. See https://espanso.org/docs/matches/extensions/#echo-extension.",
+                "type": "string"
+              },
+              "trim": {
+                "description": "This boolean property defines whether whitespace and newlines are removed from results and outputs of your commands/extensions.  See https://espanso.org/docs/matches/extensions/#trimming-the-output.",
+                "type": "boolean"
+              },
+              "debug": {
+                "description": "This boolean property defines whether Espanso uses the more verbose debug mode, with true meaning more detailed debugging info is provided, when using the command espanso log. See https://espanso.org/docs/matches/extensions/#debugging.",
+                "type": "boolean"
+              },
+              "label": {
+                "description": "Specifically for the choice extension, this enables you to render  different text for an option than the final value. The id property denotes what value will be returned when this option is used. See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Specifically for the choice extension, this helps  you to render  different text for an option than the final value. The label property denotes what value will be displayed when this option is used. This property denotes the true value. See Specifically for the choice extension, this enables you to render  different text for an option than the final value. The id property denotes what value will be returned when this option is used. See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids. https://espanso.org/docs/matches/extensions/#advanced-use-with-ids.",
+                "type": "string"
+              },
+              "args ": {
+                "description": "Specifically for the script extension, this property provides an array of arguments, which are used when evaluating/running your scripts. See https://espanso.org/docs/matches/extensions/#script-extension.",
+                "type": "array"
               }
             }
           },
