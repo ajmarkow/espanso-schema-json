@@ -12,9 +12,9 @@ These are JSON Schema Specification compliant Schemas, which describe the requir
 
 This repository includes 3 schemas:
 
-- Espanso_Matches_File_Schema.json ← A schema for a match file, either the base file, or an application specific file.
-- Espanso_Match_Schema.json ← A schema for individual matches within a match file.
-- Espanso_Config_File_Schema.json ← A schema for espanso configuration files, either the base file, or application specific configurations.
+- [Espanso_Matches_File_Schema.json](https://ajm.codes/Espanso_Matches_File_Schema.json) ← A schema for a match file, either the base file, or an application specific file.
+- [Espanso_Match_Schema.json](https://ajm.codes/Espanso_Match_Schema.json) ← A schema for individual matches within a match file.
+- [Espanso_Config_File_Schema.json](https://ajm.codes/Espanso_Config_File_Schema.json) ← A schema for espanso configuration files, either the base file, or application specific configurations.
 
 ## Usage
 
