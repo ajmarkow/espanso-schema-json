@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "triggers": {
-      "description": "An array with at least one item, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, and the property triggers is used when you want  trigger.(See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
+      "description": "An array with at least one item, a string, this is the text you type in order to trigger Espanso's text replacement. One expansion may have many triggers, and the property triggers is used when you want  trigger.(See https://espanso.org/docs/matches/basics/ or https://espanso.org/docs/matches/basics/#multiple-triggers)",
       "type": "array",
       "items": {
         "type": "string",
@@ -52,12 +52,13 @@
       "pattern": "(\\[\\[([a-zA-Z0-9!@#$%^&*)(+=._-]{1,25})\\]\\])"
     },
     "passive_only": {
-      "description": "A boolean to s a text expansion so it will only be expanded when using passive mode.",
+      "description": "A boolean to set a text expansion so it will only be expanded when using passive mode. Somewhat  & deprecated feature, see https://espanso.org/docs/legacy/passive-mode/.",
       "type": "boolean",
       "default": "false"
     },
     "global_vars": {
       "type": "array",
+      "description": "A variable which may be used in many matches, and is not scoped to only a single snippet. See https://espanso.org/docs/matches/basics/#global-variables.",
       "globalvarItems": {
         "$ref": "#/vars/items"
       }
@@ -65,93 +66,96 @@
     "form_fields": {
       "description": "Please prefix all form field names with FF_, in order for them to be properly validated against schema.",
       "type": "object",
-      "patternProperties": {
-        "^FF_": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
-              "enum": [
-                "choice",
-                "list",
-                "form"
-              ]
+      "items": {
+        "patternProperties": {
+          "^FF_": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
+                "enum": [
+                  "choice",
+                  "list",
+                  "form"
+                ]
+              },
+              "multiline": {
+                "type": "boolean",
+                "default": "false"
+              },
+              "default": {
+                "type": "string",
+                "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
+              },
+              "trim_string_values": {
+                "type": "boolean",
+                "default": "true",
+                "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon."
+              },
+              "values": {
+                "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
+                "type": [
+                  "array",
+                  "string"
+                ],
+                "minItems": 1
+              }
             },
-            "multiline": {
-              "type": "boolean",
-              "default": "false"
-            },
-            "default": {
-              "type": "string",
-              "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
-            },
-            "trim_string_values": {
-              "type": "boolean",
-              "default": "true",
-              "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon."
-            },
-            "values": {
-              "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
-              "type": [
-                "array",
-                "string"
-              ],
-              "minItems": 1
-            }
-          },
-          "allOf": [
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "list"
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "list"
+                    }
+                  }
+                },
+                "then": {
+                  "not": {
+                    "required": [
+                      "multiline"
+                    ]
                   }
                 }
               },
-              "then": {
-                "not": {
-                  "required": [
-                    "multiline"
-                  ]
-                }
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "choice"
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "choice"
+                    }
+                  }
+                },
+                "then": {
+                  "not": {
+                    "required": [
+                      "multiline"
+                    ]
                   }
                 }
               },
-              "then": {
-                "not": {
-                  "required": [
-                    "multiline"
-                  ]
-                }
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "form"
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "form"
+                    }
+                  }
+                },
+                "then": {
+                  "not": {
+                    "required": [
+                      "values"
+                    ]
                   }
                 }
-              },
-              "then": {
-                "not": {
-                  "required": [
-                    "values"
-                  ]
-                }
               }
-            }
-          ]
+            ]
+          }
         }
       }
+      
     },
     "vars": {
       "type": "array",
