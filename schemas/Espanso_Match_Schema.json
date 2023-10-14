@@ -59,7 +59,7 @@
     "global_vars": {
       "type": "array",
       "globalvarItems": {
-        "$ref": "#/vars/varItems"
+        "$ref": "#/vars/items"
       }
     },
     "form_fields": {
@@ -157,6 +157,152 @@
       "type": "array",
       "items": {
         "type": "object",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "echo"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "echo": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "echo"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "random"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "choices": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "choices"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "values": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "values"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "date"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "format": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "format"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "script"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "args": {
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "args"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "shell"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "type": "object",
+                  "properties": {
+                    "cmd": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cmd"
+                  ]
+                }
+              }
+            }
+          }
+        ],
         "description": "Variables have the capability to include the result of extensions within a match, but they can also be used to generate more complex text expansions. See https://espanso.org/docs/matches/variables/.",
         "required": [
           "type",
@@ -164,6 +310,18 @@
           "params"
         ],
         "properties": {
+          "dependentSchemas": {
+            "items": {
+              "patternProperties": {
+                "^type$": {
+                  "const": "echo"
+                }
+              },
+              "required": [
+                "echo"
+              ]
+            }
+          },
           "name": {
             "type": "string",
             "description": "The name within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. In use, surround with {{ }} on either side of variable.",
@@ -229,9 +387,9 @@
                 "description": "Specifically for the choice extension, this array contains a list of string values you will chose between in the selection dialog rendered with this type of expansion. See https://espanso.org/docs/matches/extensions/#choice-extension.",
                 "type": "array"
               },
-              "choices":{
+              "choices": {
                 "description": "Specifically for the random extension, this array contains a list of string values Espanso will randomly chose between when replacing the trigger.  See https://espanso.org/docs/matches/extensions/#random-extension.",
-                "type":"array"
+                "type": "array"
               },
               "echo": {
                 "description": "Specifically for the echo extension, this is the value of a fixed variable, where the name of the variable is the key. See https://espanso.org/docs/matches/extensions/#echo-extension.",
@@ -243,7 +401,8 @@
               },
               "debug": {
                 "description": "This boolean property defines whether Espanso uses the more verbose debug mode, with true meaning more detailed debugging info is provided, when using the command espanso log. See https://espanso.org/docs/matches/extensions/#debugging.",
-                "type": "boolean"
+                "type": "boolean",
+                "default": false
               },
               "label": {
                 "description": "Specifically for the choice extension, this enables you to render  different text for an option than the final value. The id property denotes what value will be returned when this option is used. See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids.",
