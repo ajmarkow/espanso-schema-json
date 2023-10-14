@@ -40,7 +40,7 @@ This repository includes 3 schemas:
 
 ### TODO ↓
 
-- Implement conditions on any remaining invalid form property combinations.
+- Implement conditions on any remaining invalid form property combinations. By refactoring lines 105-154
 
 ## Resources
 
