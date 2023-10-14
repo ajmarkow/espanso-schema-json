@@ -169,6 +169,7 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "echo": {
@@ -193,6 +194,7 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "choices": {
@@ -217,6 +219,7 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "values": {
@@ -241,10 +244,14 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "format": {
                       "type": "string"
+                    },
+                    "offset": {
+                      "type": "integer"
                     }
                   },
                   "required": [
@@ -265,6 +272,7 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "args": {
@@ -289,9 +297,13 @@
             "then": {
               "properties": {
                 "params": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "cmd": {
+                      "type": "string"
+                    },
+                    "shell": {
                       "type": "string"
                     }
                   },
