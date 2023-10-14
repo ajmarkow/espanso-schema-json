@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://ajm.codes/Espanso_Match_Schema.json",
   "title": "Espanso Match Schema",
-  "description": "The schema for individual text expansions in a match file, for the open source program Espanso (see https://Espanso.org)",
+  "description": "The schema for individual text expansions in a match file, for the open source program Espanso. See https://Espanso.org.",
   "type": "object",
   "properties": {
     "triggers": {
@@ -64,7 +64,7 @@
       }
     },
     "form_fields": {
-      "description": "Please prefix all form field names with FF_, in order for them to be properly validated against schema.",
+      "description": "The name you use to refer to your form field in your text replacement. See https://espanso.org/docs/matches/forms/#controls. With this schema, please prefix all form field names with FF_, in order for them to be properly validated against schema.",
       "type": "object",
       "items": {
         "patternProperties": {
@@ -91,7 +91,7 @@
               "trim_string_values": {
                 "type": "boolean",
                 "default": "true",
-                "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon."
+                "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon. See https://espanso.org/docs/matches/forms/#choice-box:~:text=(empty)-,trim_string_values,-If%20you%20pass."
               },
               "values": {
                 "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
@@ -343,7 +343,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. In use, surround with {{ }} on either side of variable.",
+            "description": "The name within your text expansion definition to use your variable data.This variable should be named without double brackets, e.g., my_special_variable. In use, surround with {{ }} on either side of variable. See also https://espanso.org/docs/matches/variables/#variable-injection.",
             "minLength": 1
           },
           "type": {
@@ -377,7 +377,7 @@
                 "type": "string"
               },
               "shell": {
-                "description": "Specifically for the shell extension, this option specifies what shell the commands specified using the cmd property will run in",
+                "description": "Specifically for the shell extension, this option specifies what shell the commands specified using the cmd property will run in. See https://espanso.org/docs/matches/extensions/#choosing-the-shell.",
                 "type": "string",
                 "enum": [
                   "cmd",
@@ -428,7 +428,7 @@
                 "type": "string"
               },
               "id": {
-                "description": "Specifically for the choice extension, this helps  you to render  different text for an option than the final value. The label property denotes what value will be displayed when this option is used. This property denotes the true value. See Specifically for the choice extension, this enables you to render  different text for an option than the final value. The id property denotes what value will be returned when this option is used. See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids. https://espanso.org/docs/matches/extensions/#advanced-use-with-ids.",
+                "description": "Specifically for the choice extension, this helps  you to render  different text for an option than the final value. The label property denotes what value will be displayed when this option is used. This property denotes the true value. See Specifically for the choice extension, this enables you to render  different text for an option than the final value. The id property denotes what value will be returned when this option is used. See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids.",
                 "type": "string"
               },
               "args ": {
