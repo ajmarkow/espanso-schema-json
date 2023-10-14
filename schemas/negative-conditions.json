@@ -1,0 +1,181 @@
+{
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "echo"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "echo": {
+                        "type": "string"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "format",
+                        "args",
+                        "values",
+                        "choices",
+                        "cmd"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "random"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "choices": {
+                        "type": "object"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "format",
+                        "args",
+                        "echo",
+                        "values",
+                        "cmd"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "choice"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "values": {
+                        "type": "object"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "format",
+                        "args",
+                        "echo",
+                        "choices",
+                        "cmd"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "date"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "format": {
+                        "type": "string"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "args",
+                        "values",
+                        "echo",
+                        "choices",
+                        "cmd"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "script"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "args": {
+                        "type": "array"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "format",
+                        "values",
+                        "echo",
+                        "choices",
+                        "cmd"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "shell"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "cmd": {
+                        "type": "string"
+                      }
+                    },
+                    "not": {
+                      "required": [
+                        "format",
+                        "args",
+                        "echo",
+                        "choices",
+                        "values"
+                      ]
+                    }
+                  }
+                }
+              }
+}
