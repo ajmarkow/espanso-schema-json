@@ -67,75 +67,77 @@
       "description": "The name you use to refer to your form field in your text replacement. See https://espanso.org/docs/matches/forms/#controls. I like to prefix all form field names with FF_, in order for them to be consistent and easy to find.  Due to the way this schema is defined, you must always include the type attribute, to specify the specific type of form.",
       "type": "object",
       "additionalProperties": {
-        "required": ["type"],
+        "required": [
+          "type"
+        ],
         "additionalProperties": false,
         "type": "object",
-          "allOf": [
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "choice"
-                  }
-                }
-              },
-              "then": {
-                "not": {
-                  "required": [
-                    "multiline"
-                  ]
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
                 }
               }
             },
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "list"
-                  }
-                }
-              },
-              "then": {
-                "not": {
-                  "required": [
-                    "multiline"
-                  ]
-                }
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "choice"
-                  }
-                }
-              },
-              "then": {
-                "not": {
-                  "required": [
-                    "multiline"
-                  ]
-                }
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "form"
-                  }
-                }
-              },
-              "then": {
-                "not": {
-                  "required": [
-                    "values"
-                  ]
-                }
+            "then": {
+              "not": {
+                "required": [
+                  "multiline"
+                ]
               }
             }
-          ],
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "list"
+                }
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "multiline"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
+                }
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "multiline"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "form"
+                }
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "values"
+                ]
+              }
+            }
+          }
+        ],
         "properties": {
           "type": {
             "type": "string",
@@ -166,7 +168,6 @@
               "string"
             ],
             "minItems": 1
-                   
           }
         }
       }
@@ -306,7 +307,8 @@
                   "type": "object",
                   "properties": {
                     "args": {
-                      "type": "array"
+                      "type": "array",
+                      "maxItems": 2
                     }
                   },
                   "required": [
@@ -447,9 +449,7 @@
               },
               "args ": {
                 "description": "Specifically for the script extension, this property provides an array of arguments, which are used when evaluating/running your scripts. First argument should be the programming language. Second argument should be the path to the script to run. See https://espanso.org/docs/matches/extensions/#script-extension.",
-                "type": "array",
-                "minItems": 2,
-                "maxItems": 2
+                "type": "array"
               }
             }
           },
