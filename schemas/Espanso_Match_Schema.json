@@ -21,6 +21,11 @@
       "minLength": 1,
       "error": "A text trigger must be at least one character. There must be at least one text trigger."
     },
+    "debug": {
+      "description": "This boolean property defines whether Espanso uses the more verbose debug mode, with true meaning more detailed debugging info is provided, when using the command espanso log. See https://espanso.org/docs/matches/extensions/#debugging.",
+      "type": "boolean",
+      "default": false
+    },
     "regex": {
       "description": "This is a string field to trigger the text replacement, desribing a regex, which, when matched, triggers Espanso's text replacement. An alternate to trigger. Follows the syntax defined in Espanso docs. (See https://espanso.org/docs/matches/regex-triggers/)",
       "type": "string"
@@ -130,6 +135,7 @@
               }
             },
             "then": {
+              "description": "\"When using form type extension, you must use dot notation in your text replacement. The format it follows is {{variable_name.field_name}} where variable_name is the name of the variable in the params array, and field_name is the field_name within the layout property of the variable. For example, given the following item in the params array:\r\n\r\n      - name: \"var1\"\r\n        type: form\r\n        params:\r\n          layout: \"what is the adjective? [[adjective]]\"\r\n\r\nYour text expansion would need to follow the format:\r\n\r\n  - trigger: \"ajs_cool_example\"\r\n    replace: \"aj is {{var1.adjective}}\"",
               "not": {
                 "required": [
                   "values"
@@ -206,6 +212,35 @@
               }
             }
           },
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "form"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "params": {
+                            "additionalProperties": false,
+                            "type": "object",
+                            "properties": {
+                              "layout": {
+                                "description": "\"When using form type extension, you must use dot notation in your text replacement. The format it follows is {{variable_name.field_name}} where variable_name is the name of the variable in the params array, and field_name is the field_name within the layout property of the variable.  Note that in the layout property, the field name should be surrounded with brackets as such, [[this_field]]. For example, given the following item in the params array:\r\n\r\n      - name: \"var1\"\r\n        type: form\r\n        params:\r\n          layout: \"what is the adjective? [[adjective]]\"\r\n\r\nYour text expansion would need to follow the format:\r\n\r\n  - trigger: \"ajs_cool_example\"\r\n    replace: \"aj is {{var1.adjective}}\"",
+                                "type": "string"
+                              },
+                              "debug": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "layout"
+                            ]
+                          }
+                        }
+                      }
+                    },
           {
             "if": {
               "properties": {
