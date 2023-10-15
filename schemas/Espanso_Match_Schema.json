@@ -64,98 +64,112 @@
       }
     },
     "form_fields": {
-      "description": "The name you use to refer to your form field in your text replacement. See https://espanso.org/docs/matches/forms/#controls. With this schema, please prefix all form field names with FF_, in order for them to be properly validated against schema.",
+      "description": "The name you use to refer to your form field in your text replacement. See https://espanso.org/docs/matches/forms/#controls. I like to prefix all form field names with FF_, in order for them to be consistent and easy to find.  Due to the way this schema is defined, you must always include the type attribute, to specify the specific type of form.",
       "type": "object",
-      "items": {
-        "patternProperties": {
-          "^FF_": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
-                "enum": [
-                  "choice",
-                  "list",
-                  "form"
-                ]
+      "additionalProperties": {
+        "required": ["type"],
+        "additionalProperties": false,
+        "type": "object",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "choice"
+                  }
+                }
               },
-              "multiline": {
-                "type": "boolean",
-                "default": "false"
-              },
-              "default": {
-                "type": "string",
-                "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
-              },
-              "trim_string_values": {
-                "type": "boolean",
-                "default": "true",
-                "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon. See https://espanso.org/docs/matches/forms/#choice-box:~:text=(empty)-,trim_string_values,-If%20you%20pass."
-              },
-              "values": {
-                "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
-                "type": [
-                  "array",
-                  "string"
-                ],
-                "minItems": 1
+              "then": {
+                "not": {
+                  "required": [
+                    "multiline"
+                  ]
+                }
               }
             },
-            "allOf": [
-              {
-                "if": {
-                  "properties": {
-                    "type": {
-                      "const": "list"
-                    }
-                  }
-                },
-                "then": {
-                  "not": {
-                    "required": [
-                      "multiline"
-                    ]
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "list"
                   }
                 }
               },
-              {
-                "if": {
-                  "properties": {
-                    "type": {
-                      "const": "choice"
-                    }
-                  }
-                },
-                "then": {
-                  "not": {
-                    "required": [
-                      "multiline"
-                    ]
-                  }
-                }
-              },
-              {
-                "if": {
-                  "properties": {
-                    "type": {
-                      "const": "form"
-                    }
-                  }
-                },
-                "then": {
-                  "not": {
-                    "required": [
-                      "values"
-                    ]
-                  }
+              "then": {
+                "not": {
+                  "required": [
+                    "multiline"
+                  ]
                 }
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "choice"
+                  }
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "multiline"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "form"
+                  }
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "values"
+                  ]
+                }
+              }
+            }
+          ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
+            "enum": [
+              "choice",
+              "list",
+              "form"
             ]
+          },
+          "multiline": {
+            "type": "boolean",
+            "default": "false"
+          },
+          "default": {
+            "type": "string",
+            "description": "Optional data that specifies the default value of the specific form field. See https://espanso.org/docs/matches/forms/#text-fields"
+          },
+          "trim_string_values": {
+            "type": "boolean",
+            "default": "true",
+            "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon. See https://espanso.org/docs/matches/forms/#choice-box:~:text=(empty)-,trim_string_values,-If%20you%20pass."
+          },
+          "values": {
+            "description": "The list of values to choose from. This can be either a multiline string or an array of strings. See https://espanso.org/docs/matches/forms/#list-box",
+            "type": [
+              "array",
+              "string"
+            ],
+            "minItems": 1
+                   
           }
         }
       }
-      
     },
     "vars": {
       "type": "array",
@@ -179,8 +193,8 @@
                     "echo": {
                       "type": "string"
                     },
-                    "debug":{
-                      "type":"boolean"
+                    "debug": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
