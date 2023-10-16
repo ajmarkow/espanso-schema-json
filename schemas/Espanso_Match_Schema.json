@@ -69,7 +69,7 @@
       }
     },
     "form_fields": {
-      "description": "The name you use to refer to your form field in your text replacement. See https://espanso.org/docs/matches/forms/#controls. I like to prefix all form field names with FF_, in order for them to be consistent and easy to find.  Due to the way this schema is defined, you must always include the type attribute, to specify the specific type of form.",
+      "description": "An object containing properties of your form fields, and the names you use to refer to them.  The object keys are your field name. See https://espanso.org/docs/matches/forms/#controls. I like to prefix all form field names with FF_, in order for them to be consistent and easy to find.  Due to the way this schema is defined, you must always include the type attribute, to specify the specific type of form.",
       "type": "object",
       "additionalProperties": {
         "required": [
