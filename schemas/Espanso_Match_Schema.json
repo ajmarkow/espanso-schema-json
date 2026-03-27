@@ -495,6 +495,62 @@
         "additionalProperties": false
       },
       "minItems": 0
+    },
+    "html": {
+      "description": "A string field that specifies an HTML replacement for the match, used when you want to expand a trigger into rich text formatted as HTML. Similar to the markdown property. (See https://espanso.org/docs/matches/basics/#rich-text)",
+      "type": "string"
+    },
+    "markdown": {
+      "description": "A string field that specifies a Markdown replacement for the match, outputting rich text using Markdown syntax instead of HTML. An alternative to the html property when you prefer to write your replacement in Markdown. (See https://espanso.org/docs/matches/basics/#rich-text)",
+      "type": "string"
+    },
+    "force_mode": {
+      "description": "A string field that overrides the global injection mechanism for a specific match. Espanso injects text either by simulating keypresses (\"keys\") or via the clipboard (\"clipboard\"). If not set, the global config value is used. Useful when the default auto-selection isn't appropriate for a particular snippet. (See https://espanso.org/docs/matches/basics/#injection-mechanism)",
+      "type": "string",
+      "enum": ["clipboard", "keys"]
+    },
+    "force_clipboard": {
+      "description": "A deprecated boolean field that previously forced clipboard-based injection for a specific match. No longer documented in the public Espanso docs. Included in this schema for posterity — use force_mode instead.",
+      "type": "boolean"
+    },
+    "uppercase_style": {
+      "description": "A string enum field used alongside `propagate_case` to control how uppercase casing is applied to the replacement. Only takes effect when the trigger is typed with a capital first letter followed by lowercase (e.g. `Hi`). `capitalize` capitalizes the first word; `capitalize_words` capitalizes every word; `uppercase` renders the entire replacement in all caps, though this option appears to only apply in very specific scenarios and is not well documented. Prefer `capitalize` or `capitalize_words` for most use cases. (See https://espanso.org/docs/matches/basics/#case-propagation)",
+      "type": "string",
+      "enum": ["capitalize", "capitalize_words", "uppercase"]
+    },
+    "left_word": {
+      "description": "A boolean field that ensures a match only triggers if the trigger is at the left side of a word, meaning there must be a word separator (such as a space, comma, or newline) to the left of the trigger. Use together with `right_word` for full word-boundary matching, or on its own for left-boundary-only matching. (See https://espanso.org/docs/matches/basics/#word-triggers)",
+      "type": "boolean"
+    },
+    "right_word": {
+      "description": "A boolean field that ensures a match only triggers if the trigger is at the right side of a word, meaning there must be a word separator (such as a space, comma, or newline) to the right of the trigger. Use together with `left_word` for full word-boundary matching, or on its own for right-boundary-only matching. (See https://espanso.org/docs/matches/basics/#word-triggers)",
+      "type": "boolean"
+    },
+    "search_terms": {
+      "description": "An array of strings that adds extra keywords to a match, making it easier to find in Espanso's search GUI. These terms do not affect triggering — they only appear as searchable metadata. For example, adding `ruby` to snippets you use when writing Ruby code lets you find them all by searching that keyword. (See https://espanso.org/docs/get-started/#search-bar)",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "comment": {
+      "description": "A string field for annotating a specific match with a human-readable note. While standard YAML comments are also valid in match files, this property keeps the comment directly associated with the match entry.",
+      "type": "string"
+    },
+    "anchor": {
+      "description": "A string field that defines a YAML anchor for this match, allowing the match's content to be reused elsewhere in the same file via a YAML alias (`*anchor_name`). Useful for sharing scripts or params across multiple triggers without duplication. The anchor definition must appear before the `matches:` section of the file. (See https://espanso.org/docs/matches/extensions/#anchors-and-aliases)",
+      "type": "string"
+    },
+    "anchors": {
+      "description": "An array field used to define reusable YAML anchors at the top level of a match file, preceding the `matches:` section. Each entry can be referenced in individual matches via a YAML alias (`*anchor_name`). Useful for sharing scripts or params across multiple triggers without duplication. (See https://espanso.org/docs/matches/extensions/#anchors-and-aliases)",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "paragraph": {
+      "description": "A boolean field used with `markdown` replacements that, when set to `true`, prevents Espanso from injecting a trailing newline character after the replacement. (See https://espanso.org/docs/matches/basics/#rich-text)",
+      "type": "boolean"
     }
   },
   "allOf": [
