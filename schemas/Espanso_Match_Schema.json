@@ -59,13 +59,13 @@
     "passive_only": {
       "description": "A boolean to set a text expansion so it will only be expanded when using passive mode. Somewhat  & deprecated feature, see https://espanso.org/docs/legacy/passive-mode/.",
       "type": "boolean",
-      "default": "false"
+      "default": false
     },
     "global_vars": {
       "type": "array",
       "description": "A variable which may be used in many matches, and is not scoped to only a single snippet. See https://espanso.org/docs/matches/basics/#global-variables.",
-      "globalvarItems": {
-        "$ref": "#/vars/items"
+      "items": {
+        "$ref": "#/properties/vars/items"
       }
     },
     "form_fields": {
@@ -150,13 +150,12 @@
             "description": "What type of form element will be rendered when this form field is used. See https://espanso.org/docs/matches/forms/#controls.",
             "enum": [
               "choice",
-              "list",
-              "form"
+              "list"
             ]
           },
           "multiline": {
             "type": "boolean",
-            "default": "false"
+            "default": false
           },
           "default": {
             "type": "string",
@@ -164,7 +163,7 @@
           },
           "trim_string_values": {
             "type": "boolean",
-            "default": "true",
+            "default": true,
             "description": "If you pass the values as a multiline string and this option is true, Espanso will trim the values and remove empty ones. If you choose this option, use the | pipe character after you type the values key and colon. See https://espanso.org/docs/matches/forms/#choice-box:~:text=(empty)-,trim_string_values,-If%20you%20pass."
           },
           "values": {
@@ -344,7 +343,6 @@
                   "properties": {
                     "args": {
                       "type": "array",
-                      "maxItems": 2,
                       "uniqueItems": true
                     }
                   },
