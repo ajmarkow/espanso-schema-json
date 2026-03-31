@@ -1,0 +1,846 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ajm.codes/Espanso_Merged_Matchfile_Schema.json",
+  "title": "Espanso Match File Schema (Merged)",
+  "description": "Unified validation schema for Espanso match files (.yml). Combines the official Espanso match schema (structural correctness, full property coverage, IANA timezone and BCP47 locale enums) with custom extension constraints and prose descriptions with doc links. Used by `snippet validate`. Conflict resolutions: trigger requirement enforced (custom wins); html/markdown added as valid replacements (official wins); vars use per-type oneOf branches (official wins); descriptions/links from custom. See https://espanso.org/docs/",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["matches"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI reference to the JSON schema used to validate this file. Optional but useful for editor support."
+    },
+    "matches": {
+      "type": "array",
+      "description": "Array of match entries. Each entry defines a trigger and its replacement. See https://espanso.org/docs/matches/basics/",
+      "additionalItems": false,
+      "items": { "$ref": "#/definitions/match" }
+    },
+    "global_vars": {
+      "type": "array",
+      "description": "Variables available to all matches in this file. Defined once and usable across any match via {{var_name}}. See https://espanso.org/docs/matches/basics/#global-variables",
+      "items": { "$ref": "#/definitions/var" }
+    },
+    "imports": {
+      "type": "array",
+      "description": "Import matches from other files outside the standard Espanso config folder. See https://espanso.org/docs/matches/organizing-matches/#imports",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "description": "Path to a YAML Espanso match file or package."
+      }
+    },
+    "extra_includes": {
+      "type": "array",
+      "description": "Load matches from files that extend existing file functionality. Useful for per-app configuration. See https://espanso.org/docs/matches/organizing-matches/#using-imports-to-group-private-match-sets-advanced",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "Path to a YAML Espanso config file or package."
+      }
+    },
+    "extra_excludes": {
+      "type": "array",
+      "description": "Disable configuration files or packages for a specific application. See https://espanso.org/docs/configuration/include-and-exclude/#excluding-a-package",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "Path to a YAML Espanso config file or package."
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "description": "Top-level YAML anchor definitions reusable across matches via aliases (*anchor_name). See https://espanso.org/docs/matches/extensions/#anchors-and-aliases",
+      "items": { "$ref": "#/definitions/anchor" }
+    }
+  },
+  "definitions": {
+    "match": {
+      "description": "A single match entry: a trigger and its replacement. See https://espanso.org/docs/matches/basics/",
+      "type": "object",
+      "additionalProperties": false,
+      "dependencies": {
+        "uppercase_style": ["propagate_case"]
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            { "required": ["trigger"] },
+            { "required": ["triggers"] },
+            { "required": ["regex"] }
+          ]
+        },
+        {
+          "oneOf": [
+            { "required": ["replace"] },
+            { "required": ["form"] },
+            { "required": ["image_path"] },
+            { "required": ["html"] },
+            { "required": ["markdown"] }
+          ]
+        },
+        {
+          "if": {
+            "required": ["image_path"],
+            "properties": { "image_path": { "type": "string" } }
+          },
+          "then": { "not": { "required": ["propagate_case"] } }
+        },
+        {
+          "if": {
+            "required": ["image_path"],
+            "properties": { "image_path": { "type": "string" } }
+          },
+          "then": { "not": { "required": ["word"] } }
+        },
+        {
+          "if": {
+            "required": ["image_path"],
+            "properties": { "image_path": { "type": "string" } }
+          },
+          "then": { "not": { "required": ["vars"] } }
+        }
+      ],
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The text you type to trigger this expansion. Use `trigger` for a single trigger string. See https://espanso.org/docs/matches/basics/"
+        },
+        "triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "An array of trigger strings, any of which will expand this match. Use when you want multiple aliases for the same replacement. See https://espanso.org/docs/matches/basics/#multiple-triggers"
+        },
+        "regex": {
+          "type": "string",
+          "description": "A regular expression that, when matched, triggers this expansion. Follows Espanso's regex syntax. See https://espanso.org/docs/matches/regex-triggers/"
+        },
+        "replace": {
+          "type": ["string", "null"],
+          "description": "The static text replacement. The trigger is replaced with this string. Use {{var_name}} to include variable output. See https://espanso.org/docs/matches/basics/#static-matches"
+        },
+        "form": {
+          "type": "string",
+          "description": "A form layout string rendered as a dialog the user fills out before expansion. Fields are denoted with [[field_name]] syntax. See https://espanso.org/docs/matches/forms/"
+        },
+        "form_fields": {
+          "$ref": "#/definitions/form_field_definition",
+          "description": "Configuration for individual form fields referenced in the `form` layout. Keys must match [[field_name]] entries in the layout. See https://espanso.org/docs/matches/forms/#controls"
+        },
+        "image_path": {
+          "type": "string",
+          "description": "Path to an image file. The trigger is replaced with the image rather than text. See https://espanso.org/docs/matches/basics/#image-matches"
+        },
+        "html": {
+          "type": "string",
+          "description": "An HTML string replacement, outputting rich text when the app supports it. See https://espanso.org/docs/matches/basics/#rich-text"
+        },
+        "markdown": {
+          "type": "string",
+          "description": "A Markdown string replacement, outputting rich text. An alternative to `html`. See https://espanso.org/docs/matches/basics/#rich-text"
+        },
+        "paragraph": {
+          "type": "boolean",
+          "description": "When true, prevents Espanso from injecting a trailing newline after a markdown replacement. See https://espanso.org/docs/matches/basics/#rich-text"
+        },
+        "vars": {
+          "type": "array",
+          "description": "Variables whose values are computed at expansion time and injected into the replacement via {{var_name}}. See https://espanso.org/docs/matches/variables/",
+          "additionalItems": false,
+          "items": { "$ref": "#/definitions/var" }
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Override the display name of this match in the Espanso search bar. See https://espanso.org/docs/matches/basics/#search-labels"
+        },
+        "word": {
+          "type": "boolean",
+          "description": "When true, the match only triggers if surrounded by word separators (spaces, commas, newlines). Useful for spell-check replacements. See https://espanso.org/docs/matches/basics/#word-triggers"
+        },
+        "left_word": {
+          "type": "boolean",
+          "description": "When true, the match only triggers if there is a word separator to the left of the trigger. See https://espanso.org/docs/matches/basics/#word-triggers"
+        },
+        "right_word": {
+          "type": "boolean",
+          "description": "When true, the match only triggers if there is a word separator to the right of the trigger. See https://espanso.org/docs/matches/basics/#word-triggers"
+        },
+        "propagate_case": {
+          "type": "boolean",
+          "description": "When true, expands the match while preserving the casing of the trigger. See https://espanso.org/docs/matches/basics/#case-propagation"
+        },
+        "uppercase_style": {
+          "type": "string",
+          "enum": ["capitalize", "capitalize_words", "uppercase"],
+          "description": "Controls how uppercase casing is applied when `propagate_case` is true and the trigger is typed with initial caps. `capitalize` capitalizes the first word; `capitalize_words` capitalizes every word; `uppercase` renders the whole replacement in caps. Requires `propagate_case: true`. See https://espanso.org/docs/matches/basics/#case-propagation"
+        },
+        "passive_only": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, this match only expands in passive mode. A deprecated feature; see https://espanso.org/docs/legacy/passive-mode/"
+        },
+        "force_mode": {
+          "type": "string",
+          "enum": ["clipboard", "keys"],
+          "description": "Override the global text injection mechanism for this match. `clipboard` injects via the clipboard; `keys` simulates keypresses. See https://espanso.org/docs/matches/basics/#injection-mechanism"
+        },
+        "force_clipboard": {
+          "type": "boolean",
+          "description": "Deprecated. Previously forced clipboard-based injection. Use `force_mode: clipboard` instead."
+        },
+        "debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, enables verbose debug output for this match in `espanso log`. See https://espanso.org/docs/matches/extensions/#debugging"
+        },
+        "search_terms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Extra keywords that make this match findable in the Espanso search bar. These terms do not affect triggering. See https://espanso.org/docs/get-started/#search-bar"
+        },
+        "comment": {
+          "type": "string",
+          "description": "A human-readable annotation attached directly to this match entry."
+        },
+        "anchor": {
+          "$ref": "#/definitions/anchor",
+          "description": "Define a YAML anchor on this match for reuse elsewhere via *anchor_name. See https://espanso.org/docs/matches/extensions/#anchors-and-aliases"
+        }
+      }
+    },
+
+    "var": {
+      "description": "A variable whose value is computed at expansion time using one of Espanso's extension types. See https://espanso.org/docs/matches/extensions/",
+      "oneOf": [
+        {
+          "$comment": "shell var — runs a shell command and captures output",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["shell"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}. See https://espanso.org/docs/matches/variables/"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["cmd"],
+              "description": "Shell extension parameters. See https://espanso.org/docs/matches/extensions/#shell-extension",
+              "properties": {
+                "cmd": {
+                  "type": "string",
+                  "description": "The shell command to run. Its stdout becomes the variable value. See https://espanso.org/docs/matches/extensions/#shell-extension"
+                },
+                "shell": {
+                  "type": "string",
+                  "enum": ["bash", "cmd", "nu", "powershell", "pwsh", "sh", "wsl", "wsl2", "zsh"],
+                  "description": "The shell to run the command in. Defaults to the system shell. See https://espanso.org/docs/matches/extensions/#choosing-the-shell"
+                },
+                "trim": {
+                  "type": "boolean",
+                  "description": "When true, trims whitespace and trailing newlines from the command output. See https://espanso.org/docs/matches/extensions/#trimming-the-output"
+                },
+                "debug": {
+                  "type": "boolean",
+                  "description": "When true, logs the shell extension result to `espanso log`. See https://espanso.org/docs/matches/extensions/#debugging"
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order. See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed"
+            }
+          }
+        },
+        {
+          "$comment": "script var — runs an external script and captures output",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["script"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["args"],
+              "description": "Script extension parameters. See https://espanso.org/docs/matches/extensions/#script-extension",
+              "properties": {
+                "args": {
+                  "type": "array",
+                  "additionalItems": false,
+                  "items": { "type": "string" },
+                  "description": "Arguments to the script runner. First element is the interpreter (e.g. 'ruby'), second is the script path, remaining are passed as arguments. No upper limit on count. See https://espanso.org/docs/matches/extensions/#script-extension"
+                },
+                "trim": {
+                  "type": "boolean",
+                  "description": "When true, trims whitespace and trailing newlines from the script output."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order. See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed"
+            }
+          }
+        },
+        {
+          "$comment": "date var — inserts a formatted date/time string",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["date"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["format"],
+              "description": "Date extension parameters. See https://espanso.org/docs/matches/extensions/#date-extension",
+              "properties": {
+                "format": {
+                  "type": "string",
+                  "description": "A strftime-compatible format string defining how the date is rendered (e.g. '%Y-%m-%d'). See https://espanso.org/docs/matches/extensions/#date-extension"
+                },
+                "offset": {
+                  "type": ["number", "string"],
+                  "description": "Seconds to add to the current time before formatting. Accepts a number or a variable-injection string like {{hours_offset}}. See https://espanso.org/docs/matches/extensions/#future-and-past-dates"
+                },
+                "locale": {
+                  "type": "string",
+                  "description": "BCP47 locale code forcing locale-specific date formatting (e.g. 'en-US', 'ja-JP'). See https://espanso.org/docs/matches/extensions/#advanced-localized-dates",
+                  "enum": [
+                    "aa-DJ","aa-ER","aa-ET","af-ZA","agr-PE","ak-GH","am-ET","an-ES","anp-IN",
+                    "ar-AE","ar-BH","ar-DZ","ar-EG","ar-IN","ar-IQ","ar-JO","ar-KW","ar-LB",
+                    "ar-LY","ar-MA","ar-OM","ar-QA","ar-SA","ar-SD","ar-SS","ar-SY","ar-TN",
+                    "ar-YE","as-IN","ast-ES","ayc-PE","az-AZ","az-IR","be-BY","bem-ZM","ber-DZ",
+                    "ber-MA","bg-BG","bhb-IN","bho-IN","bho-NP","bi-VU","bn-BD","bn-IN","bo-CN",
+                    "bo-IN","br-FR","brx-IN","bs-BA","byn-ER","ca-AD","ca-ES","ca-FR","ca-IT",
+                    "ce-RU","chr-US","cmn-TW","crh-UA","cs-CZ","csb-PL","cv-RU","cy-GB","da-DK",
+                    "de-AT","de-BE","de-CH","de-DE","de-IT","de-LI","de-LU","doi-IN","dsb-DE",
+                    "dv-MV","dz-BT","el-CY","el-GR","en-AG","en-AU","en-BW","en-CA","en-DK",
+                    "en-GB","en-HK","en-IE","en-IL","en-IN","en-NG","en-NZ","en-PH","en-SC",
+                    "en-SG","en-US","en-ZA","en-ZM","en-ZW","eo","es-AR","es-BO","es-CL","es-CO",
+                    "es-CR","es-CU","es-DO","es-EC","es-ES","es-GT","es-HN","es-MX","es-NI",
+                    "es-PA","es-PE","es-PR","es-PY","es-SV","es-US","es-UY","es-VE","et-EE",
+                    "eu-ES","fa-IR","ff-SN","fi-FI","fil-PH","fo-FO","fr-BE","fr-CA","fr-CH",
+                    "fr-FR","fr-LU","fur-IT","fy-DE","fy-NL","ga-IE","gd-GB","gez-ER","gez-ET",
+                    "gl-ES","gu-IN","gv-GB","ha-NG","hak-TW","he-IL","hi-IN","hif-FJ","hne-IN",
+                    "hr-HR","hsb-DE","ht-HT","hu-HU","hy-AM","ia-FR","id-ID","ig-NG","ik-CA",
+                    "is-IS","it-CH","it-IT","iu-CA","ja-JP","ka-GE","kab-DZ","kk-KZ","kl-GL",
+                    "km-KH","kn-IN","ko-KR","kok-IN","ks-IN","ku-TR","kw-GB","ky-KG","lb-LU",
+                    "lg-UG","li-BE","li-NL","lij-IT","ln-CD","lo-LA","lt-LT","lv-LV","lzh-TW",
+                    "mag-IN","mai-IN","mai-NP","mfe-MU","mg-MG","mhr-RU","mi-NZ","miq-NI",
+                    "mjw-IN","mk-MK","ml-IN","mn-MN","mni-IN","mnw-MM","mr-IN","ms-MY","mt-MT",
+                    "my-MM","nan-TW","nb-NO","nds-DE","nds-NL","ne-NP","nhn-MX","niu-NU",
+                    "niu-NZ","nl-AW","nl-BE","nl-NL","nn-NO","nr-ZA","nso-ZA","oc-FR","om-ET",
+                    "om-KE","or-IN","os-RU","pa-IN","pa-PK","pap-AW","pap-CW","pl-PL","ps-AF",
+                    "pt-BR","pt-PT","quz-PE","raj-IN","ro-RO","ru-RU","ru-UA","rw-RW","sa-IN",
+                    "sah-RU","sat-IN","sc-IT","sd-IN","se-NO","sgs-LT","shn-MM","shs-CA","si-LK",
+                    "sid-ET","sk-SK","sl-SI","sm-WS","so-DJ","so-ET","so-KE","so-SO","sq-AL",
+                    "sq-MK","sr-ME","sr-RS","ss-ZA","st-ZA","sv-FI","sv-SE","sw-KE","sw-TZ",
+                    "szl-PL","ta-IN","ta-LK","tcy-IN","te-IN","tg-TJ","th-TH","the-NP","ti-ER",
+                    "ti-ET","tig-ER","tk-TM","tl-PH","tn-ZA","to-TO","tpi-PG","tr-CY","tr-TR",
+                    "ts-ZA","tt-RU","ug-CN","uk-UA","unm-US","ur-IN","ur-PK","uz-UZ","ve-ZA",
+                    "vi-VN","wa-BE","wae-CH","wal-ET","wo-SN","xh-ZA","yi-US","yo-NG","yue-HK",
+                    "yuw-PG","zh-CN","zh-HK","zh-SG","zh-TW","zu-ZA"
+                  ]
+                },
+                "tz": {
+                  "type": "string",
+                  "description": "IANA timezone name (e.g. 'UTC', 'America/New_York', 'Europe/Paris'). See https://espanso.org/docs/matches/extensions/#date-extension",
+                  "enum": [
+                    "Africa/Abidjan","Africa/Accra","Africa/Addis_Ababa","Africa/Algiers",
+                    "Africa/Asmara","Africa/Asmera","Africa/Bamako","Africa/Bangui","Africa/Banjul",
+                    "Africa/Bissau","Africa/Blantyre","Africa/Brazzaville","Africa/Bujumbura",
+                    "Africa/Cairo","Africa/Casablanca","Africa/Ceuta","Africa/Conakry",
+                    "Africa/Dakar","Africa/Dar_es_Salaam","Africa/Djibouti","Africa/Douala",
+                    "Africa/El_Aaiun","Africa/Freetown","Africa/Gaborone","Africa/Harare",
+                    "Africa/Johannesburg","Africa/Juba","Africa/Kampala","Africa/Khartoum",
+                    "Africa/Kigali","Africa/Kinshasa","Africa/Lagos","Africa/Libreville",
+                    "Africa/Lome","Africa/Luanda","Africa/Lubumbashi","Africa/Lusaka",
+                    "Africa/Malabo","Africa/Maputo","Africa/Maseru","Africa/Mbabane",
+                    "Africa/Mogadishu","Africa/Monrovia","Africa/Nairobi","Africa/Ndjamena",
+                    "Africa/Niamey","Africa/Nouakchott","Africa/Ouagadougou","Africa/Porto-Novo",
+                    "Africa/Sao_Tome","Africa/Timbuktu","Africa/Tripoli","Africa/Tunis",
+                    "Africa/Windhoek",
+                    "America/Adak","America/Anchorage","America/Anguilla","America/Antigua",
+                    "America/Araguaina","America/Argentina/Buenos_Aires",
+                    "America/Argentina/Catamarca","America/Argentina/ComodRivadavia",
+                    "America/Argentina/Cordoba","America/Argentina/Jujuy",
+                    "America/Argentina/La_Rioja","America/Argentina/Mendoza",
+                    "America/Argentina/Rio_Gallegos","America/Argentina/Salta",
+                    "America/Argentina/San_Juan","America/Argentina/San_Luis",
+                    "America/Argentina/Tucuman","America/Argentina/Ushuaia","America/Aruba",
+                    "America/Asuncion","America/Atikokan","America/Atka","America/Bahia",
+                    "America/Bahia_Banderas","America/Barbados","America/Belem","America/Belize",
+                    "America/Blanc-Sablon","America/Boa_Vista","America/Bogota","America/Boise",
+                    "America/Buenos_Aires","America/Cambridge_Bay","America/Campo_Grande",
+                    "America/Cancun","America/Caracas","America/Catamarca","America/Cayenne",
+                    "America/Cayman","America/Chicago","America/Chihuahua",
+                    "America/Ciudad_Juarez","America/Coral_Harbour","America/Cordoba",
+                    "America/Costa_Rica","America/Coyhaique","America/Creston","America/Cuiaba",
+                    "America/Curacao","America/Danmarkshavn","America/Dawson",
+                    "America/Dawson_Creek","America/Denver","America/Detroit","America/Dominica",
+                    "America/Edmonton","America/Eirunepe","America/El_Salvador",
+                    "America/Ensenada","America/Fort_Nelson","America/Fort_Wayne",
+                    "America/Fortaleza","America/Glace_Bay","America/Godthab","America/Goose_Bay",
+                    "America/Grand_Turk","America/Grenada","America/Guadeloupe",
+                    "America/Guatemala","America/Guayaquil","America/Guyana","America/Halifax",
+                    "America/Havana","America/Hermosillo","America/Indiana/Indianapolis",
+                    "America/Indiana/Knox","America/Indiana/Marengo","America/Indiana/Petersburg",
+                    "America/Indiana/Tell_City","America/Indiana/Vevay",
+                    "America/Indiana/Vincennes","America/Indiana/Winamac","America/Indianapolis",
+                    "America/Inuvik","America/Iqaluit","America/Jamaica","America/Jujuy",
+                    "America/Juneau","America/Kentucky/Louisville","America/Kentucky/Monticello",
+                    "America/Knox_IN","America/Kralendijk","America/La_Paz","America/Lima",
+                    "America/Los_Angeles","America/Louisville","America/Lower_Princes",
+                    "America/Maceio","America/Managua","America/Manaus","America/Marigot",
+                    "America/Martinique","America/Matamoros","America/Mazatlan","America/Mendoza",
+                    "America/Menominee","America/Merida","America/Metlakatla",
+                    "America/Mexico_City","America/Miquelon","America/Moncton",
+                    "America/Monterrey","America/Montevideo","America/Montreal",
+                    "America/Montserrat","America/Nassau","America/New_York","America/Nipigon",
+                    "America/Nome","America/Noronha","America/North_Dakota/Beulah",
+                    "America/North_Dakota/Center","America/North_Dakota/New_Salem",
+                    "America/Nuuk","America/Ojinaga","America/Panama","America/Pangnirtung",
+                    "America/Paramaribo","America/Phoenix","America/Port-au-Prince",
+                    "America/Port_of_Spain","America/Porto_Acre","America/Porto_Velho",
+                    "America/Puerto_Rico","America/Punta_Arenas","America/Rainy_River",
+                    "America/Rankin_Inlet","America/Recife","America/Regina","America/Resolute",
+                    "America/Rio_Branco","America/Rosario","America/Santa_Isabel",
+                    "America/Santarem","America/Santiago","America/Santo_Domingo",
+                    "America/Sao_Paulo","America/Scoresbysund","America/Shiprock","America/Sitka",
+                    "America/St_Barthelemy","America/St_Johns","America/St_Kitts",
+                    "America/St_Lucia","America/St_Thomas","America/St_Vincent",
+                    "America/Swift_Current","America/Tegucigalpa","America/Thule",
+                    "America/Thunder_Bay","America/Tijuana","America/Toronto","America/Tortola",
+                    "America/Vancouver","America/Virgin","America/Whitehorse","America/Winnipeg",
+                    "America/Yakutat","America/Yellowknife",
+                    "Antarctica/Casey","Antarctica/Davis","Antarctica/DumontDUrville",
+                    "Antarctica/Macquarie","Antarctica/Mawson","Antarctica/McMurdo",
+                    "Antarctica/Palmer","Antarctica/Rothera","Antarctica/South_Pole",
+                    "Antarctica/Syowa","Antarctica/Troll","Antarctica/Vostok",
+                    "Arctic/Longyearbyen",
+                    "Asia/Aden","Asia/Almaty","Asia/Amman","Asia/Anadyr","Asia/Aqtau",
+                    "Asia/Aqtobe","Asia/Ashgabat","Asia/Ashkhabad","Asia/Atyrau","Asia/Baghdad",
+                    "Asia/Bahrain","Asia/Baku","Asia/Bangkok","Asia/Barnaul","Asia/Beirut",
+                    "Asia/Bishkek","Asia/Brunei","Asia/Calcutta","Asia/Chita","Asia/Choibalsan",
+                    "Asia/Chongqing","Asia/Chungking","Asia/Colombo","Asia/Dacca","Asia/Damascus",
+                    "Asia/Dhaka","Asia/Dili","Asia/Dubai","Asia/Dushanbe","Asia/Famagusta",
+                    "Asia/Gaza","Asia/Harbin","Asia/Hebron","Asia/Ho_Chi_Minh","Asia/Hong_Kong",
+                    "Asia/Hovd","Asia/Irkutsk","Asia/Istanbul","Asia/Jakarta","Asia/Jayapura",
+                    "Asia/Jerusalem","Asia/Kabul","Asia/Kamchatka","Asia/Karachi","Asia/Kashgar",
+                    "Asia/Kathmandu","Asia/Katmandu","Asia/Khandyga","Asia/Kolkata",
+                    "Asia/Krasnoyarsk","Asia/Kuala_Lumpur","Asia/Kuching","Asia/Kuwait",
+                    "Asia/Macao","Asia/Macau","Asia/Magadan","Asia/Makassar","Asia/Manila",
+                    "Asia/Muscat","Asia/Nicosia","Asia/Novokuznetsk","Asia/Novosibirsk",
+                    "Asia/Omsk","Asia/Oral","Asia/Phnom_Penh","Asia/Pontianak","Asia/Pyongyang",
+                    "Asia/Qatar","Asia/Qostanay","Asia/Qyzylorda","Asia/Rangoon","Asia/Riyadh",
+                    "Asia/Saigon","Asia/Sakhalin","Asia/Samarkand","Asia/Seoul","Asia/Shanghai",
+                    "Asia/Singapore","Asia/Srednekolymsk","Asia/Taipei","Asia/Tashkent",
+                    "Asia/Tbilisi","Asia/Tehran","Asia/Tel_Aviv","Asia/Thimbu","Asia/Thimphu",
+                    "Asia/Tokyo","Asia/Tomsk","Asia/Ujung_Pandang","Asia/Ulaanbaatar",
+                    "Asia/Ulan_Bator","Asia/Urumqi","Asia/Ust-Nera","Asia/Vientiane",
+                    "Asia/Vladivostok","Asia/Yakutsk","Asia/Yangon","Asia/Yekaterinburg",
+                    "Asia/Yerevan",
+                    "Atlantic/Azores","Atlantic/Bermuda","Atlantic/Canary","Atlantic/Cape_Verde",
+                    "Atlantic/Faeroe","Atlantic/Faroe","Atlantic/Jan_Mayen","Atlantic/Madeira",
+                    "Atlantic/Reykjavik","Atlantic/South_Georgia","Atlantic/St_Helena",
+                    "Atlantic/Stanley",
+                    "Australia/ACT","Australia/Adelaide","Australia/Brisbane",
+                    "Australia/Broken_Hill","Australia/Canberra","Australia/Currie",
+                    "Australia/Darwin","Australia/Eucla","Australia/Hobart","Australia/LHI",
+                    "Australia/Lindeman","Australia/Lord_Howe","Australia/Melbourne",
+                    "Australia/NSW","Australia/North","Australia/Perth","Australia/Queensland",
+                    "Australia/South","Australia/Sydney","Australia/Tasmania","Australia/Victoria",
+                    "Australia/West","Australia/Yancowinna",
+                    "Brazil/Acre","Brazil/DeNoronha","Brazil/East","Brazil/West",
+                    "CET","CST6CDT",
+                    "Canada/Atlantic","Canada/Central","Canada/Eastern","Canada/Mountain",
+                    "Canada/Newfoundland","Canada/Pacific","Canada/Saskatchewan","Canada/Yukon",
+                    "Chile/Continental","Chile/EasterIsland",
+                    "Cuba","EET","EST","EST5EDT","Egypt","Eire",
+                    "Etc/GMT","Etc/GMT+0","Etc/GMT+1","Etc/GMT+10","Etc/GMT+11","Etc/GMT+12",
+                    "Etc/GMT+2","Etc/GMT+3","Etc/GMT+4","Etc/GMT+5","Etc/GMT+6","Etc/GMT+7",
+                    "Etc/GMT+8","Etc/GMT+9","Etc/GMT-0","Etc/GMT-1","Etc/GMT-10","Etc/GMT-11",
+                    "Etc/GMT-12","Etc/GMT-13","Etc/GMT-14","Etc/GMT-2","Etc/GMT-3","Etc/GMT-4",
+                    "Etc/GMT-5","Etc/GMT-6","Etc/GMT-7","Etc/GMT-8","Etc/GMT-9","Etc/GMT0",
+                    "Etc/Greenwich","Etc/UCT","Etc/UTC","Etc/Universal","Etc/Zulu",
+                    "Europe/Amsterdam","Europe/Andorra","Europe/Astrakhan","Europe/Athens",
+                    "Europe/Belfast","Europe/Belgrade","Europe/Berlin","Europe/Bratislava",
+                    "Europe/Brussels","Europe/Bucharest","Europe/Budapest","Europe/Busingen",
+                    "Europe/Chisinau","Europe/Copenhagen","Europe/Dublin","Europe/Gibraltar",
+                    "Europe/Guernsey","Europe/Helsinki","Europe/Isle_of_Man","Europe/Istanbul",
+                    "Europe/Jersey","Europe/Kaliningrad","Europe/Kiev","Europe/Kirov",
+                    "Europe/Kyiv","Europe/Lisbon","Europe/Ljubljana","Europe/London",
+                    "Europe/Luxembourg","Europe/Madrid","Europe/Malta","Europe/Mariehamn",
+                    "Europe/Minsk","Europe/Monaco","Europe/Moscow","Europe/Nicosia","Europe/Oslo",
+                    "Europe/Paris","Europe/Podgorica","Europe/Prague","Europe/Riga","Europe/Rome",
+                    "Europe/Samara","Europe/San_Marino","Europe/Sarajevo","Europe/Saratov",
+                    "Europe/Simferopol","Europe/Skopje","Europe/Sofia","Europe/Stockholm",
+                    "Europe/Tallinn","Europe/Tirane","Europe/Tiraspol","Europe/Ulyanovsk",
+                    "Europe/Uzhgorod","Europe/Vaduz","Europe/Vatican","Europe/Vienna",
+                    "Europe/Vilnius","Europe/Volgograd","Europe/Warsaw","Europe/Zagreb",
+                    "Europe/Zaporozhye","Europe/Zurich",
+                    "GB","GB-Eire","GMT","GMT+0","GMT-0","GMT0","Greenwich",
+                    "HST","Hongkong","Iceland",
+                    "Indian/Antananarivo","Indian/Chagos","Indian/Christmas","Indian/Cocos",
+                    "Indian/Comoro","Indian/Kerguelen","Indian/Mahe","Indian/Maldives",
+                    "Indian/Mauritius","Indian/Mayotte","Indian/Reunion",
+                    "Iran","Israel","Jamaica","Japan","Kwajalein","Libya",
+                    "MET","MST","MST7MDT",
+                    "Mexico/BajaNorte","Mexico/BajaSur","Mexico/General",
+                    "NZ","NZ-CHAT","Navajo","PRC","PST8PDT",
+                    "Pacific/Apia","Pacific/Auckland","Pacific/Bougainville","Pacific/Chatham",
+                    "Pacific/Chuuk","Pacific/Easter","Pacific/Efate","Pacific/Enderbury",
+                    "Pacific/Fakaofo","Pacific/Fiji","Pacific/Funafuti","Pacific/Galapagos",
+                    "Pacific/Gambier","Pacific/Guadalcanal","Pacific/Guam","Pacific/Honolulu",
+                    "Pacific/Johnston","Pacific/Kanton","Pacific/Kiritimati","Pacific/Kosrae",
+                    "Pacific/Kwajalein","Pacific/Majuro","Pacific/Marquesas","Pacific/Midway",
+                    "Pacific/Nauru","Pacific/Niue","Pacific/Norfolk","Pacific/Noumea",
+                    "Pacific/Pago_Pago","Pacific/Palau","Pacific/Pitcairn","Pacific/Pohnpei",
+                    "Pacific/Ponape","Pacific/Port_Moresby","Pacific/Rarotonga","Pacific/Saipan",
+                    "Pacific/Samoa","Pacific/Tahiti","Pacific/Tarawa","Pacific/Tongatapu",
+                    "Pacific/Truk","Pacific/Wake","Pacific/Wallis","Pacific/Yap",
+                    "Poland","Portugal","ROC","ROK","Singapore","Turkey",
+                    "UCT","US/Alaska","US/Aleutian","US/Arizona","US/Central","US/East-Indiana",
+                    "US/Eastern","US/Hawaii","US/Indiana-Starke","US/Michigan","US/Mountain",
+                    "US/Pacific","US/Samoa","UTC","Universal","W-SU","WET","Zulu"
+                  ]
+                },
+                "debug": {
+                  "type": "boolean",
+                  "description": "When true, logs the date extension result to `espanso log`."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order. See https://espanso.org/docs/matches/variables/#specify-the-depends_on-option-when-needed"
+            }
+          }
+        },
+        {
+          "$comment": "echo var — outputs a fixed string value",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["echo"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["echo"],
+              "description": "Echo extension parameters. See https://espanso.org/docs/matches/extensions/#echo-extension",
+              "properties": {
+                "echo": {
+                  "type": "string",
+                  "description": "The fixed string value this variable will output. See https://espanso.org/docs/matches/extensions/#echo-extension"
+                },
+                "trim": {
+                  "type": "boolean",
+                  "description": "When true, trims whitespace from the echo value."
+                },
+                "debug": {
+                  "type": "boolean",
+                  "description": "When true, logs the echo extension result to `espanso log`."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        },
+        {
+          "$comment": "clipboard var — inserts the current clipboard contents. No params needed.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["clipboard"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        },
+        {
+          "$comment": "choice var — presents a selection dialog; the user picks a value at expansion time",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["choice"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["values"],
+              "description": "Choice extension parameters. See https://espanso.org/docs/matches/extensions/#choice-extension",
+              "properties": {
+                "values": {
+                  "type": "array",
+                  "description": "The list of options to present. Each item is a plain string or an object with 'label' (display text) and 'id' (returned value). See https://espanso.org/docs/matches/extensions/#advanced-use-with-ids",
+                  "items": {
+                    "oneOf": [
+                      { "type": "string" },
+                      {
+                        "type": "object",
+                        "required": ["label", "id"],
+                        "properties": {
+                          "label": { "type": "string", "description": "Text shown in the selection dialog." },
+                          "id": { "type": "string", "description": "Value returned when this option is chosen." }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "debug": {
+                  "type": "boolean",
+                  "description": "When true, logs the choice extension result to `espanso log`."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        },
+        {
+          "$comment": "form var — renders an inline form within a variable for complex multi-field expansions",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["form"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name. Fields are referenced in the replacement as {{name.field_name}} using dot notation."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["layout"],
+              "description": "Form extension parameters. See https://espanso.org/docs/matches/forms/",
+              "properties": {
+                "layout": {
+                  "type": "string",
+                  "description": "The form layout string. Fields use [[field_name]] syntax and are referenced in the replacement as {{var_name.field_name}}. See https://espanso.org/docs/matches/forms/"
+                },
+                "fields": {
+                  "$ref": "#/definitions/form_field_definition",
+                  "description": "Configuration for individual form fields referenced in the layout."
+                },
+                "debug": {
+                  "type": "boolean",
+                  "description": "When true, logs the form extension result to `espanso log`."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        },
+        {
+          "$comment": "random var — picks one value at random from a list at expansion time",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["random"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["choices"],
+              "description": "Random extension parameters. See https://espanso.org/docs/matches/extensions/#random-extension",
+              "properties": {
+                "choices": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "The list of strings Espanso randomly selects from at expansion time. See https://espanso.org/docs/matches/extensions/#random-extension"
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "match var — expands another match inline by its trigger",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["match"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The variable name, referenced in the replacement as {{name}}."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["trigger"],
+              "description": "Nested match parameters.",
+              "properties": {
+                "trigger": {
+                  "type": "string",
+                  "description": "The trigger of the match to expand inline at the variable's position."
+                }
+              }
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        }
+      ]
+    },
+
+    "anchor": {
+      "$comment": "https://espanso.org/docs/matches/extensions/#anchors-and-aliases",
+      "type": "string",
+      "description": "A YAML anchor name enabling reuse of match content via aliases (*anchor_name). See https://espanso.org/docs/matches/extensions/#anchors-and-aliases"
+    },
+
+    "form_field_definition": {
+      "type": "object",
+      "description": "A map of field names to their configuration. Each key must correspond to a [[field_name]] entry in the form layout. Each value is either a plain text field or a choice/list field. See https://espanso.org/docs/matches/forms/#controls",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^.*$": {
+          "anyOf": [
+            { "$ref": "#/definitions/form_multiline_field" },
+            { "$ref": "#/definitions/form_choice_or_list_field" }
+          ]
+        }
+      }
+    },
+
+    "form_multiline_field": {
+      "$comment": "A plain text or multiline text form field. This is the default field type — no type or values required.",
+      "type": "object",
+      "properties": {
+        "multiline": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, renders the field as a multiline text area instead of a single-line input. See https://espanso.org/docs/matches/forms/#text-fields"
+        },
+        "default": {
+          "type": "string",
+          "default": "",
+          "description": "Default value pre-filled in the field. See https://espanso.org/docs/matches/forms/#text-fields"
+        }
+      }
+    },
+
+    "form_choice_or_list_field": {
+      "$comment": "A choice or list dropdown form field. Requires both type and values.",
+      "type": "object",
+      "required": ["values", "type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["choice", "list"],
+          "description": "The form control type. `choice` renders a dropdown; `list` renders a scrollable list box. See https://espanso.org/docs/matches/forms/#controls"
+        },
+        "values": {
+          "type": ["array", "string"],
+          "items": { "type": "string" },
+          "description": "The selectable options. Can be an array of strings or a YAML multiline string (one option per line). See https://espanso.org/docs/matches/forms/#choice-box"
+        },
+        "default": {
+          "type": "string",
+          "default": "",
+          "description": "Default selected value."
+        },
+        "trim_string_values": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true and values is a multiline string, Espanso trims each value and removes empty ones. Use with the YAML pipe operator on the values key. See https://espanso.org/docs/matches/forms/#choice-box"
+        }
+      }
+    }
+  }
+}
