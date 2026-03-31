@@ -314,10 +314,16 @@
                   "type": "object",
                   "properties": {
                     "format": {
+                      "description": "A strftime-compatible format string that defines how the date is rendered. See https://espanso.org/docs/matches/extensions/#date-extension.",
                       "type": "string"
                     },
                     "offset": {
+                      "description": "A number of seconds to be added to the time retrieved by the date parameter. See https://espanso.org/docs/matches/extensions/#future-and-past-dates.",
                       "type": "integer"
+                    },
+                    "locale": {
+                      "description": "A BCP47 locale string that forces the date to use a specific locale's formatting (e.g. 'en-US', 'ja-JP'). See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
+                      "type": "string"
                     },
                     "debug": {
                       "type": "boolean"
@@ -450,11 +456,8 @@
                 "type": "integer"
               },
               "locale": {
-                "description": "Specifically for the date extension, this property forces the date to use a specific locale's formatting. Should be a valid BCP47 option, from the list of enumerated values. See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
-                "type": "string",
-                "enum": [
-                  "\"ar-SA\",\"bn-BD\",\"bn-IN\",\"cs-CZ\",\"da-DK\",\"de-AT\",\"de-CH\",\"de-DE\",\"el-GR\",\"en-AU\",\"en-CA\",\"en-GB\",\"en-IE\",\"en-IN\",\"en-NZ\",\"en-US\",\"en-ZA\",\"es-AR\",\"es-CL\",\"es-CO\",\"es-ES\",\"es-MX\",\"es-US\",\"fi-FI\",\"fr-BE\",\"fr-CA\",\"fr-CH\",\"fr-FR\",\"he-IL\",\"hi-IN\",\"hu-HU\",\"id-ID\",\"it-CH\",\"it-IT\",\"jp-JP\",\"ko-KR\",\"nl-BE\",\"nl-NL\",\"no-NO\",\"pl-PL\",\"pt-BR\",\"pt-PT\",\"ro-RO\",\"ru-RU\",\"sk-SK\",\"sv-SE\",\"ta-IN\",\"ta-LK\",\"th-TH\",\"tr-TR\",\"zh-CN\",\"zh-HK\",\"zh-TW\""
-                ]
+                "description": "A BCP47 locale string that forces the date to use a specific locale's formatting (e.g. 'en-US', 'ja-JP'). See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
+                "type": "string"
               },
               "values": {
                 "description": "Specifically for the choice extension, this array contains a list of string values you will chose between in the selection dialog rendered with this type of expansion. See https://espanso.org/docs/matches/extensions/#choice-extension.",
