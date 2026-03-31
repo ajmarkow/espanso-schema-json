@@ -200,6 +200,9 @@
                     "echo": {
                       "type": "string"
                     },
+                    "trim": {
+                      "type": "boolean"
+                    },
                     "debug": {
                       "type": "boolean"
                     }
