@@ -590,7 +590,6 @@
         },
         {
           "type": "object",
-          "properties": {},
           "required": [
             "image_path"
           ]
@@ -599,6 +598,18 @@
           "type": "object",
           "required": [
             "form"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "html"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "markdown"
           ]
         }
       ]
