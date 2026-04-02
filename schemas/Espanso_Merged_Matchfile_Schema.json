@@ -227,6 +227,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}. See https://espanso.org/docs/matches/variables/"
             },
             "params": {
@@ -275,6 +276,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
@@ -316,6 +318,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
@@ -562,6 +565,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
@@ -605,6 +609,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "inject_vars": {
@@ -628,6 +633,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
@@ -680,6 +686,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name. Fields are referenced in the replacement as {{name.field_name}} using dot notation."
             },
             "params": {
@@ -723,6 +730,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
@@ -750,6 +758,7 @@
             "name": {
               "type": "string",
               "minLength": 1,
+              "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
             "params": {
