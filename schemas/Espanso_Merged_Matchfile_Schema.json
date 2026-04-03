@@ -221,7 +221,7 @@
           "$comment": "shell var — runs a shell command and captures output",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["shell"] },
             "name": {
@@ -270,7 +270,7 @@
           "$comment": "script var — runs an external script and captures output",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["script"] },
             "name": {
@@ -312,7 +312,7 @@
           "$comment": "date var — inserts a formatted date/time string",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["date"] },
             "name": {
@@ -332,8 +332,8 @@
                   "description": "A strftime-compatible format string defining how the date is rendered (e.g. '%Y-%m-%d'). See https://espanso.org/docs/matches/extensions/#date-extension"
                 },
                 "offset": {
-                  "type": ["number", "string"],
-                  "description": "Seconds to add to the current time before formatting. Accepts a number or a variable-injection string like {{hours_offset}}. See https://espanso.org/docs/matches/extensions/#future-and-past-dates"
+                  "type": "integer",
+                  "description": "Seconds to add to the current time before formatting (e.g. 86400 for +1 day). See https://espanso.org/docs/matches/extensions/#future-and-past-dates"
                 },
                 "locale": {
                   "type": "string",
@@ -559,7 +559,7 @@
           "$comment": "echo var — outputs a fixed string value",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["echo"] },
             "name": {
@@ -612,6 +612,11 @@
               "pattern": "^\\w+$",
               "description": "The variable name, referenced in the replacement as {{name}}."
             },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Clipboard extension takes no parameters. An empty object is accepted for compatibility."
+            },
             "inject_vars": {
               "type": "boolean",
               "description": "When true, other variable values are injected into this variable's params before evaluation."
@@ -627,7 +632,7 @@
           "$comment": "choice var — presents a selection dialog; the user picks a value at expansion time",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["choice"] },
             "name": {
@@ -680,7 +685,7 @@
           "$comment": "form var — renders an inline form within a variable for complex multi-field expansions",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["form"] },
             "name": {
@@ -724,7 +729,7 @@
           "$comment": "random var — picks one value at random from a list at expansion time",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "name"],
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["random"] },
             "name": {
@@ -749,10 +754,39 @@
           }
         },
         {
-          "$comment": "match var — expands another match inline by its trigger",
+          "$comment": "global var — references a global variable defined in global_vars at the file level",
           "type": "object",
           "additionalProperties": false,
           "required": ["type", "name"],
+          "properties": {
+            "type": { "type": "string", "enum": ["global"] },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^\\w+$",
+              "description": "The variable name, referenced in the replacement as {{name}}. Must match a name defined in global_vars."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Global var takes no parameters. An empty object is accepted for compatibility."
+            },
+            "inject_vars": {
+              "type": "boolean",
+              "description": "When true, other variable values are injected into this variable's params before evaluation."
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of variable names this variable depends on. Forces evaluation order."
+            }
+          }
+        },
+        {
+          "$comment": "match var — expands another match inline by its trigger",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name", "params"],
           "properties": {
             "type": { "type": "string", "enum": ["match"] },
             "name": {
