@@ -199,12 +199,6 @@
                   "properties": {
                     "echo": {
                       "type": "string"
-                    },
-                    "trim": {
-                      "type": "boolean"
-                    },
-                    "debug": {
-                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -231,9 +225,6 @@
                               "layout": {
                                 "description": "\"When using form type extension, you must use dot notation in your text replacement. The format it follows is {{variable_name.field_name}} where variable_name is the name of the variable in the params array, and field_name is the field_name within the layout property of the variable.  Note that in the layout property, the field name should be surrounded with brackets as such, [[this_field]]. For example, given the following item in the params array:\r\n\r\n      - name: \"var1\"\r\n        type: form\r\n        params:\r\n          layout: \"what is the adjective? [[adjective]]\"\r\n\r\nYour text expansion would need to follow the format:\r\n\r\n  - trigger: \"ajs_cool_example\"\r\n    replace: \"aj is {{var1.adjective}}\"",
                                 "type": "string"
-                              },
-                              "debug": {
-                                "type": "boolean"
                               }
                             },
                             "required": [
@@ -259,9 +250,6 @@
                   "properties": {
                     "choices": {
                       "type": "array"
-                    },
-                    "debug": {
-                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -287,9 +275,6 @@
                   "properties": {
                     "values": {
                       "type": "array"
-                    },
-                    "debug": {
-                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -325,8 +310,9 @@
                       "description": "A BCP47 locale string that forces the date to use a specific locale's formatting (e.g. 'en-US', 'ja-JP'). See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
                       "type": "string"
                     },
-                    "debug": {
-                      "type": "boolean"
+                    "tz": {
+                      "description": "An IANA timezone name that overrides the system timezone when rendering the date (e.g. 'America/New_York', 'Europe/Rome'). See https://espanso.org/docs/matches/extensions/#date-extension.",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -353,6 +339,9 @@
                     "args": {
                       "type": "array",
                       "uniqueItems": true
+                    },
+                    "trim": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -384,11 +373,32 @@
                     },
                     "debug": {
                       "type": "boolean"
+                    },
+                    "trim": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "cmd"
                   ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "clipboard"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "params": {
+                  "additionalProperties": false,
+                  "type": "object",
+                  "properties": {}
                 }
               }
             }
@@ -458,6 +468,10 @@
               },
               "locale": {
                 "description": "A BCP47 locale string that forces the date to use a specific locale's formatting (e.g. 'en-US', 'ja-JP'). See https://espanso.org/docs/matches/extensions/#advanced-localized-dates.",
+                "type": "string"
+              },
+              "tz": {
+                "description": "Specifically for the date extension, an IANA timezone name that overrides the system timezone when rendering the date (e.g. 'America/New_York', 'Europe/Rome'). See https://espanso.org/docs/matches/extensions/#date-extension.",
                 "type": "string"
               },
               "values": {
